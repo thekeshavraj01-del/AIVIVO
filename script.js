@@ -9,12 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Dark mode
     themeToggle.addEventListener("click", function () {
         document.body.classList.toggle("dark");
-
         themeToggle.textContent =
             document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
 
-    // Generate professional prompt
+    // Generate Smart Prompt
     generateBtn.addEventListener("click", function () {
 
         const idea = document.getElementById("idea").value.trim();
@@ -26,50 +25,49 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        let prompt = "";
+        let role = "";
+        let instructions = "";
 
         if (aiType === "image") {
-            prompt = `Create a ${style} AI image based on this idea:
-
-"${idea}"
-
-Generate a visually stunning, highly detailed image. Focus on composition, subject, lighting, colors, environment, atmosphere, camera perspective, depth, textures, and realistic details. Make the final result polished, professional, and visually engaging.`;
-
-        } else if (aiType === "video") {
-            prompt = `Create a ${style} AI video based on this idea:
-
-"${idea}"
-
-Design a detailed video concept including scene composition, camera movements, transitions, lighting, environment, subject actions, atmosphere, pacing, and visual effects. Make it cinematic, engaging, and professionally directed.`;
-
-        } else if (aiType === "text") {
-            prompt = `Write ${style} content based on this idea:
-
-"${idea}"
-
-Create clear, engaging, well-structured, high-quality content. Use an appropriate tone, strong structure, useful details, and natural language. Make the final result professional and easy to understand.`;
-
-        } else if (aiType === "code") {
-            prompt = `Develop ${style} code based on this idea:
-
-"${idea}"
-
-Provide clean, efficient, well-structured, and maintainable code. Explain the important parts, handle possible errors, follow best practices, and make the solution practical and reliable.`;
-
-        } else if (aiType === "study") {
-            prompt = `Create a ${style} study solution based on this idea:
-
-"${idea}"
-
-Explain the topic clearly and step-by-step. Include important concepts, examples, key points, common mistakes, and useful techniques for better understanding and revision.`;
-
-        } else {
-            prompt = `Create a ${style} result based on this idea:
-
-"${idea}"
-
-Make the result detailed, high-quality, clear, useful, and professional.`;
+            role = "You are an expert AI visual prompt engineer.";
+            instructions = "Describe the subject, composition, lighting, camera angle, colors, environment, atmosphere, depth, textures, and visual quality.";
+        } 
+        else if (aiType === "video") {
+            role = "You are an expert cinematic AI video director.";
+            instructions = "Describe scenes, camera movements, subject actions, transitions, lighting, environment, pacing, and cinematic details.";
+        } 
+        else if (aiType === "text") {
+            role = "You are an expert content writer.";
+            instructions = "Create clear, engaging, well-structured content with the appropriate tone, context, examples, and useful details.";
+        } 
+        else if (aiType === "code") {
+            role = "You are an expert software developer.";
+            instructions = "Create clean, efficient, maintainable code with proper structure, error handling, comments, and best practices.";
+        } 
+        else if (aiType === "study") {
+            role = "You are an expert teacher and study mentor.";
+            instructions = "Explain the topic step-by-step with concepts, examples, important points, common mistakes, and revision tips.";
         }
+
+        const prompt =
+`${role}
+
+TASK:
+Create a ${style} ${aiType} based on the following idea:
+
+"${idea}"
+
+CONTEXT:
+Understand the user's idea and expand it into a complete, useful result.
+
+REQUIREMENTS:
+${instructions}
+
+QUALITY:
+Make the result detailed, accurate, high-quality, professional, and easy to understand.
+
+OUTPUT:
+Return the final result in a clear and well-structured format.`;
 
         promptResult.textContent = prompt;
         resultBox.style.display = "block";
@@ -83,10 +81,8 @@ Make the result detailed, high-quality, clear, useful, and professional.`;
     // Copy prompt
     copyBtn.addEventListener("click", async function () {
 
-        const prompt = promptResult.textContent;
-
         try {
-            await navigator.clipboard.writeText(prompt);
+            await navigator.clipboard.writeText(promptResult.textContent);
 
             copyBtn.textContent = "✅ Copied!";
 
