@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
 
-    // Generate AI-specific smart prompt
+    // Generate Smart Expanded Prompt
     generateBtn.addEventListener("click", function () {
 
         const idea = document.getElementById("idea").value.trim();
@@ -26,220 +26,80 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        let prompt = "";
+        let expandedIdea = "";
 
         // IMAGE
         if (aiType === "image") {
 
-            prompt = `You are an expert AI image prompt engineer.
+            expandedIdea =
+`Create a visually rich ${style} scene based on the idea "${idea}".
 
-TASK:
-Create a ${style} AI image based on this idea:
+Expand the concept with a clearly defined main subject, a believable environment, strong visual storytelling, cinematic composition, realistic materials and textures, atmospheric depth, carefully controlled lighting, and a professional color palette.
 
-"${idea}"
-
-SUBJECT:
-Clearly define the main subject, appearance, characteristics, clothing, objects, and important visual elements.
-
-COMPOSITION:
-Create a strong composition with foreground, subject placement, background, depth, perspective, and visual balance.
-
-CAMERA:
-Specify camera angle, perspective, lens style, depth of field, and framing where appropriate.
-
-LIGHTING:
-Describe the lighting direction, intensity, shadows, highlights, and overall mood.
-
-ENVIRONMENT:
-Build a detailed environment that supports the idea and makes the scene believable.
-
-COLORS:
-Use a carefully selected color palette that matches the requested style and atmosphere.
-
-DETAILS:
-Include realistic textures, materials, small environmental details, atmosphere, and visual depth.
-
-QUALITY:
-Make the image highly detailed, polished, professional, visually consistent, and suitable for high-quality AI image generation.
-
-NEGATIVE:
-Avoid blurry details, distorted anatomy, bad composition, unwanted objects, low resolution, artifacts, and unnatural results.
-
-OUTPUT:
-Return one complete, ready-to-use AI image generation prompt.`;
+Make the scene feel intentional and immersive rather than generic. Add relevant visual details that naturally support the original idea without changing its core meaning.`;
         }
 
         // VIDEO
         else if (aiType === "video") {
 
-            prompt = `You are an expert AI video director and cinematic prompt engineer.
+            expandedIdea =
+`Create a cinematic ${style} video concept based on the idea "${idea}".
 
-TASK:
-Create a ${style} AI video based on this idea:
+Expand the concept into a visually engaging sequence with a clear setting, subjects, actions, camera movements, cinematic shots, environmental motion, lighting changes, atmosphere, pacing, and transitions.
 
-"${idea}"
-
-SCENE:
-Describe the environment, characters, objects, atmosphere, and visual setting.
-
-ACTION:
-Clearly describe what happens in the scene and how the subjects move.
-
-CAMERA:
-Specify camera movement, camera angle, framing, perspective, and cinematic shots.
-
-MOTION:
-Describe realistic subject movement, environmental movement, and physics.
-
-LIGHTING:
-Define the lighting, shadows, highlights, time of day, and mood.
-
-TRANSITIONS:
-Include suitable transitions and scene changes where necessary.
-
-PACING:
-Define the rhythm, timing, intensity, and progression of the video.
-
-VISUAL STYLE:
-Create a visually consistent ${style} cinematic style.
-
-QUALITY:
-Make the video realistic, detailed, smooth, engaging, and professionally directed.
-
-OUTPUT:
-Return one complete, ready-to-use AI video generation prompt.`;
+Make every visual element support the original idea and create a coherent professional video concept.`;
         }
 
         // TEXT
         else if (aiType === "text") {
 
-            prompt = `You are an expert content strategist and professional writer.
+            expandedIdea =
+`Create ${style} content based on the idea "${idea}".
 
-TASK:
-Create ${style} content based on this idea:
+Expand the idea into useful and meaningful content by identifying the purpose, audience, key information, supporting points, examples, structure, tone, and practical value.
 
-"${idea}"
-
-AUDIENCE:
-Identify the most appropriate target audience and write for their level of understanding.
-
-STRUCTURE:
-Organize the content with a strong introduction, logical sections, useful details, and a clear conclusion.
-
-TONE:
-Use a ${style} tone that fits the purpose and audience.
-
-CONTENT:
-Expand the idea with relevant information, examples, explanations, and practical value.
-
-CLARITY:
-Use natural, clear, engaging language and avoid unnecessary complexity.
-
-QUALITY:
-Make the final content original, useful, polished, professional, and easy to understand.
-
-OUTPUT:
-Return the final content in a clean and well-structured format.`;
+Keep the original idea as the foundation while adding relevant details that make the final content more complete and engaging.`;
         }
 
         // CODE
         else if (aiType === "code") {
 
-            prompt = `You are a senior software engineer and expert AI coding assistant.
+            expandedIdea =
+`Develop a ${style} software solution based on the idea "${idea}".
 
-TASK:
-Develop a ${style} coding solution based on this idea:
+Expand the concept into clear technical requirements, user functionality, application logic, data flow, components, error handling, edge cases, security considerations, and testing requirements.
 
-"${idea}"
-
-REQUIREMENTS:
-Understand the idea and convert it into clear technical requirements.
-
-ARCHITECTURE:
-Choose an appropriate structure, technologies, components, and logic.
-
-IMPLEMENTATION:
-Write clean, efficient, readable, maintainable code.
-
-ERROR HANDLING:
-Handle likely errors, edge cases, invalid inputs, and unexpected situations.
-
-SECURITY:
-Follow appropriate security and privacy best practices.
-
-TESTING:
-Include useful test cases or explain how the solution should be tested.
-
-EXPLANATION:
-Briefly explain the important parts of the solution.
-
-QUALITY:
-Follow modern development best practices and make the solution practical and production-ready where appropriate.
-
-OUTPUT:
-Return the complete solution with code and a concise explanation.`;
+Choose an appropriate technical approach and keep the solution practical, maintainable, and scalable.`;
         }
 
         // STUDY
         else if (aiType === "study") {
 
-            prompt = `You are an expert teacher, study mentor, and exam-preparation strategist.
+            expandedIdea =
+`Teach the topic "${idea}" using a ${style} learning approach.
 
-TASK:
-Teach this topic in a ${style} way:
+Expand the topic into a complete learning experience covering fundamental concepts, step-by-step explanations, examples, important formulas or facts, common mistakes, exam-focused points, practice questions, and concise revision notes.
 
-"${idea}"
-
-LEVEL:
-Adapt the explanation to the student's likely level and build understanding from the basics.
-
-CONCEPTS:
-Explain the important concepts clearly and step-by-step.
-
-EXAMPLES:
-Provide simple examples and practical applications where useful.
-
-EXAM FOCUS:
-Highlight important concepts, formulas, facts, patterns, and commonly tested areas.
-
-COMMON MISTAKES:
-Explain mistakes students commonly make and how to avoid them.
-
-PRACTICE:
-Provide useful practice questions or exercises to reinforce understanding.
-
-REVISION:
-Give concise revision points and memory techniques where appropriate.
-
-QUALITY:
-Make the explanation accurate, clear, engaging, and easy to learn.
-
-OUTPUT:
-Return a complete study solution in a well-structured format.`;
+Build understanding progressively from basic concepts to more advanced applications.`;
         }
 
-        // DEFAULT
-        else {
-
-            prompt = `You are an expert AI prompt engineer.
+        const prompt =
+`${expandedIdea}
 
 TASK:
-Create a ${style} result based on this idea:
-
-"${idea}"
+Transform the expanded concept into a professional, ready-to-use AI prompt.
 
 CONTEXT:
-Understand the user's idea and expand it into a complete solution.
+Preserve the original idea while intelligently adding relevant details that improve clarity, specificity, and quality.
 
 REQUIREMENTS:
-Make the result detailed, useful, clear, and specific.
+Make the prompt specific, detailed, coherent, and optimized for the selected AI type.
 
 QUALITY:
-Make the final result professional, accurate, polished, and high-quality.
+Avoid unnecessary details that do not support the original idea. Prioritize accuracy, consistency, realism, creativity, and professional quality.
 
 OUTPUT:
-Return the final result in a clear and well-structured format.`;
-        }
+Return one complete, polished, ready-to-use prompt.`;
 
         promptResult.textContent = prompt;
         resultBox.style.display = "block";
@@ -268,7 +128,6 @@ Return the final result in a clear and well-structured format.`;
         } catch (error) {
 
             alert("Unable to copy. Please copy the prompt manually.");
-
         }
     });
 
