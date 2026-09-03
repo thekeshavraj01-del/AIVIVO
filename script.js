@@ -1,3 +1,4 @@
+alert("AIVIVO JavaScript is working!");
 const themeToggle = document.getElementById("themeToggle");
 
 themeToggle.addEventListener("click", () => {
