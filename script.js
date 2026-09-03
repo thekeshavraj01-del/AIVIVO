@@ -42,4 +42,4 @@ generateBtn.addEventListener("click", () => {
 Make the result detailed, high-quality, clear, and professional. Include important details, context, and specific instructions needed to achieve the best possible result.`;
 
     alert("✨ Your prompt is ready!\n\n" + prompt);
-});
+}
