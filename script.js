@@ -29,15 +29,36 @@ document.addEventListener("DOMContentLoaded", function () {
         let expandedIdea = "";
 
         // IMAGE
-        if (aiType === "image") {
-
-            expandedIdea =
-`Create a visually rich ${style} scene based on the idea "${idea}".
-
-Expand the concept with a clearly defined main subject, a believable environment, strong visual storytelling, cinematic composition, realistic materials and textures, atmospheric depth, carefully controlled lighting, and a professional color palette.
-
-Make the scene feel intentional and immersive rather than generic. Add relevant visual details that naturally support the original idea without changing its core meaning.`;
-        }
+if (aiType === "image") {
+    expandedIdea =
+`Create a visually rich ${style} AI image based on the idea "${idea}".
+SMART VISUAL EXPANSION:
+Interpret the core idea creatively and expand it into a specific visual scene without changing its original meaning.
+SUBJECT:
+Define the main subject clearly. Add relevant appearance, characteristics, clothing, objects, technology, architecture, or visual elements that naturally fit the concept.
+SETTING:
+Build a believable environment around the subject. Add appropriate locations, structures, background elements, weather, time of day, and environmental features.
+VISUAL STORY:
+Add meaningful details that make the scene feel alive and tell a visual story. Include natural interactions between the subject and environment.
+FUTURISTIC DETAILS:
+When appropriate, introduce believable futuristic technology, architecture, transportation, interfaces, infrastructure, or lifestyle elements that fit the concept and time period.
+ATMOSPHERE:
+Define the mood, weather, air quality, fog, particles, reflections, and overall atmosphere.
+COMPOSITION:
+Create a strong cinematic composition with foreground, main subject placement, background, depth, perspective, symmetry or visual balance.
+CAMERA:
+Specify an appropriate camera angle, framing, perspective, lens characteristics, and depth of field.
+LIGHTING:
+Create detailed lighting with direction, intensity, shadows, highlights, reflections, and mood.
+COLORS:
+Choose a professional color palette that supports the requested ${style} style and atmosphere.
+MATERIALS AND TEXTURES:
+Add realistic materials, surfaces, architectural details, clothing textures, reflections, and environmental details.
+REALISM:
+Keep the expanded details believable, coherent, visually consistent, and connected to the original idea.
+QUALITY:
+Make the final concept highly detailed, immersive, polished, professional, and optimized for modern AI image generation.`;
+}
 
         // VIDEO
         else if (aiType === "video") {
