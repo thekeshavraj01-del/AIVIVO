@@ -1343,23 +1343,27 @@ function displayPromptHistory() {
                     <div class="history-prompt">
                         ${escapeHistoryHTML(item.prompt)}
                     </div>
+                    
+<div class="history-actions">
 
-                    <div class="history-actions">
+    <button onclick="copyHistoryPrompt(${item.id})">
+        📋 Copy
+    </button>
 
-                        <button onclick="copyHistoryPrompt(${item.id})">
-                            📋 Copy
-                        </button>
+    <button onclick="reuseHistoryPrompt(${item.id})">
+        🔄 Reuse
+    </button>
 
-                        <button onclick="reuseHistoryPrompt(${item.id})">
-                            🔄 Reuse
-                        </button>
+    <button onclick="toggleFavoritePrompt(${item.id})">
+        ${item.favorite ? "⭐ Favorited" : "☆ Favorite"}
+    </button>
 
-                        <button onclick="deleteHistoryPrompt(${item.id})">
-                            🗑️ Delete
-                        </button>
+    <button onclick="deleteHistoryPrompt(${item.id})">
+        🗑️ Delete
+    </button>
 
-                    </div>
-
+</div>
+  
                 </div>
 
             `;
