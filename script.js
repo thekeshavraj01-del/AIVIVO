@@ -175,7 +175,9 @@ REQUIREMENTS:
 Make the prompt specific, detailed, coherent, and optimized for the selected AI type.
 
 QUALITY:
-Avoid unnecessary details that do not support the original idea. Prioritize accuracy, consistency, realism, creativity, and professional quality.
+Make the final concept highly detailed, immersive, polished, professional, and optimized for modern AI image generation.
+
+${dynamicDetails}`;
 
 OUTPUT:
 Return one complete, polished, ready-to-use prompt.`;
