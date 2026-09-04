@@ -980,3 +980,238 @@ Return one complete, ready-to-use AI study prompt.`;
     }
 
 });
+/* =========================
+   PROMPT HISTORY
+========================= */
+
+function savePromptToHistory(prompt, aiType, style) {
+
+    const history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    const newPrompt = {
+        id: Date.now(),
+        prompt: prompt,
+        aiType: aiType,
+        style: style,
+        date: new Date().toLocaleString()
+    };
+
+    history.unshift(newPrompt);
+
+    // Keep only the latest 20 prompts
+    const limitedHistory = history.slice(0, 20);
+
+    localStorage.setItem(
+        "aivivoHistory",
+        JSON.stringify(limitedHistory)
+    );
+
+    displayPromptHistory();
+}
+
+
+function displayPromptHistory() {
+
+    const historyList =
+        document.getElementById("historyList");
+
+    if (!historyList) return;
+
+    const history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    if (history.length === 0) {
+
+        historyList.innerHTML = `
+            <div class="empty-history">
+                <div>📚</div>
+                <h3>No prompts yet</h3>
+                <p>
+                    Your generated prompts will appear here.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    historyList.innerHTML = history.map(item => `
+
+        <div class="history-item">
+
+            <div class="history-item-header">
+
+                <span class="history-type">
+                    ${getHistoryIcon(item.aiType)}
+                    ${item.aiType.toUpperCase()}
+                </span>
+
+                <span class="history-date">
+                    ${item.date}
+                </span>
+
+            </div>
+
+            <div class="history-prompt">
+                ${escapeHistoryHTML(item.prompt)}
+            </div>
+
+            <div class="history-actions">
+
+                <button onclick="copyHistoryPrompt(${item.id})">
+                    📋 Copy
+                </button>
+
+                <button onclick="reuseHistoryPrompt(${item.id})">
+                    🔄 Reuse
+                </button>
+
+                <button onclick="deleteHistoryPrompt(${item.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+}
+
+
+function getHistoryIcon(type) {
+
+    const icons = {
+        image: "🖼️",
+        video: "🎬",
+        text: "✍️",
+        code: "💻",
+        study: "📚"
+    };
+
+    return icons[type] || "✨";
+}
+
+
+function escapeHistoryHTML(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function copyHistoryPrompt(id) {
+
+    const history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    const item =
+        history.find(prompt => prompt.id === id);
+
+    if (!item) return;
+
+    navigator.clipboard.writeText(item.prompt);
+
+    alert("✅ Prompt copied!");
+}
+
+
+function reuseHistoryPrompt(id) {
+
+    const history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    const item =
+        history.find(prompt => prompt.id === id);
+
+    if (!item) return;
+
+    const ideaInput =
+        document.getElementById("idea");
+
+    const aiTypeInput =
+        document.getElementById("aiType");
+
+    const styleInput =
+        document.getElementById("style");
+
+    if (ideaInput) {
+        ideaInput.value = item.prompt;
+    }
+
+    if (aiTypeInput) {
+        aiTypeInput.value = item.aiType;
+    }
+
+    if (styleInput) {
+        styleInput.value = item.style;
+    }
+
+    document
+        .getElementById("generator")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+function deleteHistoryPrompt(id) {
+
+    let history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    history =
+        history.filter(prompt => prompt.id !== id);
+
+    localStorage.setItem(
+        "aivivoHistory",
+        JSON.stringify(history)
+    );
+
+    displayPromptHistory();
+}
+
+
+function clearPromptHistory() {
+
+    localStorage.removeItem("aivivoHistory");
+
+    displayPromptHistory();
+}
+
+
+/* Clear All button */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    displayPromptHistory();
+
+    const clearBtn =
+        document.getElementById("clearHistoryBtn");
+
+    if (clearBtn) {
+
+        clearBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    confirm(
+                        "Are you sure you want to delete all saved prompts?"
+                    )
+                ) {
+
+                    clearPromptHistory();
+
+                }
+
+            }
+        );
+
+    }
+
+});
