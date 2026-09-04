@@ -161,7 +161,6 @@ Expand the topic into a complete learning experience covering fundamental concep
 
 Build understanding progressively from basic concepts to more advanced applications.`;
         }
-
         const prompt =
 `${expandedIdea}
 
@@ -177,12 +176,12 @@ Make the prompt specific, detailed, coherent, and optimized for the selected AI 
 QUALITY:
 Make the final concept highly detailed, immersive, polished, professional, and optimized for modern AI image generation.
 
-${dynamicDetails}`;
+${dynamicDetails}
 
 OUTPUT:
 Return one complete, polished, ready-to-use prompt.`;
-
-        promptResult.textContent = prompt;
+        
+      promptResult.textContent = prompt;
         resultBox.style.display = "block";
 
         resultBox.scrollIntoView({
