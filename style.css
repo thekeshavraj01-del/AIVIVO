@@ -683,3 +683,55 @@ footer small {
     }
 
 }
+/* =========================
+   HISTORY SEARCH & FILTER
+========================= */
+
+.history-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+#historySearch {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+}
+
+#historySearch:focus {
+    border-color: var(--accent);
+}
+
+#historyFilter {
+    width: 180px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+#historyFilter:focus {
+    border-color: var(--accent);
+}
+
+@media (max-width: 600px) {
+
+    .history-filters {
+        flex-direction: column;
+    }
+
+    #historyFilter {
+        width: 100%;
+    }
+
+}
