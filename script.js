@@ -27,6 +27,64 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let expandedIdea = "";
+        let dynamicDetails = "";
+
+const ideaLower = idea.toLowerCase();
+
+// Cyberpunk
+if (ideaLower.includes("cyberpunk")) {
+    dynamicDetails += `
+STYLE INTELLIGENCE:
+Use a cyberpunk visual language with neon lighting, futuristic technology, dense urban environments, holographic interfaces, reflective wet surfaces, and a high-tech atmospheric mood.
+`;
+}
+
+// Portrait
+if (
+    ideaLower.includes("portrait") ||
+    ideaLower.includes("person") ||
+    ideaLower.includes("girl") ||
+    ideaLower.includes("boy")
+) {
+    dynamicDetails += `
+PORTRAIT INTELLIGENCE:
+Focus on facial features, natural expression, realistic skin texture, eyes, hairstyle, clothing details, and strong subject separation from the background.
+`;
+}
+
+// Landscape
+if (
+    ideaLower.includes("landscape") ||
+    ideaLower.includes("mountain") ||
+    ideaLower.includes("forest") ||
+    ideaLower.includes("nature")
+) {
+    dynamicDetails += `
+LANDSCAPE INTELLIGENCE:
+Use an expansive composition, strong environmental depth, natural foreground and background layers, atmospheric perspective, and detailed environmental storytelling.
+`;
+}
+
+// Architecture
+if (
+    ideaLower.includes("building") ||
+    ideaLower.includes("architecture") ||
+    ideaLower.includes("house") ||
+    ideaLower.includes("city")
+) {
+    dynamicDetails += `
+ARCHITECTURE INTELLIGENCE:
+Focus on structural design, scale, materials, geometry, lighting interaction, architectural details, and a believable relationship between structures and their environment.
+`;
+}
+
+// Anime
+if (ideaLower.includes("anime")) {
+    dynamicDetails += `
+ANIME INTELLIGENCE:
+Use expressive character design, stylized features, clean line aesthetics, vibrant visual storytelling, and a polished anime-inspired composition.
+`;
+}
 
         // IMAGE
 if (aiType === "image") {
