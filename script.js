@@ -2,524 +2,437 @@
 
     const themeToggle = document.getElementById("themeToggle");
     const generateBtn = document.getElementById("generateBtn");
-    const resultBox = document.getElementById("resultBox");
-    const promptResult = document.getElementById("promptResult");
     const copyBtn = document.getElementById("copyBtn");
 
     // =========================
     // DARK MODE
     // =========================
 
-    themeToggle.addEventListener("click", function () {
+    if (themeToggle) {
+        themeToggle.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
 
-        document.body.classList.toggle("dark");
-
-        themeToggle.textContent =
-            document.body.classList.contains("dark") ? "☀️" : "🌙";
-
-    });
-
+            themeToggle.textContent =
+                document.body.classList.contains("dark") ? "☀️" : "🌙";
+        });
+    }
 
     // =========================
-    // HELPERS
+    // HELPER
     // =========================
 
     function hasAny(text, words) {
         return words.some(word => text.includes(word));
     }
 
-
     // =========================
     // GENERATE PROMPT
     // =========================
 
-    generateBtn.addEventListener("click", function () {
+    if (generateBtn) {
 
-        const idea = document.getElementById("idea").value.trim();
-        const aiType = document.getElementById("aiType").value;
-        const style = document.getElementById("style").value;
+        generateBtn.addEventListener("click", function () {
 
-        if (!idea) {
-            alert("Please enter your idea first.");
-            return;
-        }
+            const ideaElement = document.getElementById("idea");
+            const aiTypeElement = document.getElementById("aiType");
+            const styleElement = document.getElementById("style");
 
-        const ideaLower = idea.toLowerCase();
+            const idea = ideaElement.value.trim();
+            const aiType = aiTypeElement.value;
+            const style = styleElement.value;
 
-        let expandedIdea = "";
-        let subject = "";
-        let environment = "";
-        let technology = "";
-        let atmosphere = "";
-        let camera = "";
-        let lighting = "";
-        let colors = "";
-        let materials = "";
-        let extraDetails = "";
-
-
-        // =====================================================
-        // IMAGE INTELLIGENCE
-        // =====================================================
-
-        if (aiType === "image") {
-
-            // -------------------------------------------------
-            // CYBERPUNK
-            // -------------------------------------------------
-
-            if (hasAny(ideaLower, [
-                "cyberpunk",
-                "cyber",
-                "neon city"
-            ])) {
-
-                subject =
-                "A vast futuristic megacity in 2050, dominated by towering glass-and-metal skyscrapers, illuminated holographic billboards, elevated transportation systems, autonomous flying vehicles, and dense pedestrian districts.";
-
-                environment =
-                "A rain-soaked downtown at night with narrow streets, reflective wet asphalt, steam rising from underground vents, elevated walkways, distant skyscrapers disappearing into atmospheric fog, glowing storefronts, and layered urban infrastructure.";
-
-                technology =
-                "Autonomous flying taxis, delivery drones, robotic street systems, holographic advertisements, transparent digital interfaces, intelligent traffic systems, illuminated transit rails, and futuristic vehicles.";
-
-                atmosphere =
-                "Heavy cinematic rain, volumetric fog, drifting steam, rain particles, glowing reflections, humid night air, subtle atmospheric haze, and a dense futuristic urban mood.";
-
-                camera =
-                "Low-angle cinematic establishing shot from street level, wide 28mm lens, deep perspective, strong foreground reflections, towering vertical composition, realistic depth of field, and carefully balanced framing.";
-
-                lighting =
-                "Intense cyan and magenta neon lighting mixed with warm window lights, glowing advertisements, wet-surface reflections, soft rim lighting, deep shadows, and volumetric light passing through fog.";
-
-                colors =
-                "Electric cyan, neon magenta, violet, deep blue, charcoal black, and subtle warm amber highlights.";
-
-                materials =
-                "Rain-covered asphalt, reflective glass, brushed metal, dark concrete, illuminated plastic, holographic surfaces, wet cables, futuristic vehicle panels, and realistic architectural textures.";
-
-                extraDetails =
-                "Include pedestrians wearing sleek futuristic clothing, small robotic devices, glowing signs in multiple languages, cables between buildings, ventilation systems, rooftop structures, distant aircraft, and subtle signs of everyday life.";
-
+            if (!idea) {
+                alert("Please enter your idea first.");
+                return;
             }
 
+            const ideaLower = idea.toLowerCase();
+
+            let expandedIdea = "";
+
+            // =====================================================
+            // IMAGE MODE
+            // =====================================================
+
+            if (aiType === "image") {
+
+                let subject = "";
+                let environment = "";
+                let technology = "";
+                let atmosphere = "";
+                let camera = "";
+                let lighting = "";
+                let colors = "";
+                let materials = "";
+                let extraDetails = "";
+
+                // CYBERPUNK
+                if (hasAny(ideaLower, [
+                    "cyberpunk",
+                    "neon",
+                    "futuristic city",
+                    "future city"
+                ])) {
 
-            // -------------------------------------------------
-            // PORTRAIT
-            // -------------------------------------------------
+                    subject =
+                        "A vast futuristic megacity in 2050 dominated by towering glass-and-metal skyscrapers, enormous holographic billboards, elevated transportation systems, autonomous flying vehicles, and dense pedestrian districts.";
 
-            else if (hasAny(ideaLower, [
-                "portrait",
-                "person",
-                "girl",
-                "boy",
-                "man",
-                "woman",
-                "face",
-                "character"
-            ])) {
+                    environment =
+                        "A rain-soaked downtown district at night with reflective wet asphalt, narrow streets, steam rising from underground vents, elevated walkways connecting skyscrapers, glowing storefronts, layered urban infrastructure, and distant towers disappearing into atmospheric fog.";
 
-                subject =
-                "A clearly defined human subject with realistic facial proportions, expressive eyes, natural skin texture, detailed hairstyle, believable clothing, and a subtle authentic expression.";
+                    technology =
+                        "Autonomous flying taxis, delivery drones, robotic street systems, holographic advertisements, transparent digital interfaces, intelligent traffic systems, illuminated transit rails, futuristic electric vehicles, and advanced urban infrastructure.";
 
-                environment =
-                "A carefully controlled environment that complements the subject, with a softly detailed background, natural depth separation, subtle environmental elements, and visual context appropriate to the original idea.";
+                    atmosphere =
+                        "Heavy cinematic rain, volumetric fog, drifting steam, floating rain particles, glowing reflections, humid night air, atmospheric haze, and a mysterious high-tech urban mood.";
 
-                technology =
-                "Use modern photographic rendering principles with realistic lens behavior, accurate skin rendering, natural focus falloff, and professional portrait composition.";
+                    camera =
+                        "Low-angle cinematic establishing shot from street level, wide 28mm lens, deep perspective, strong foreground reflections, towering vertical composition, realistic depth of field, and carefully balanced framing.";
+
+                    lighting =
+                        "Intense cyan and magenta neon lighting mixed with warm amber window lights, glowing advertisements illuminating the rain and fog, soft rim lighting, deep architectural shadows, and volumetric light beams.";
+
+                    colors =
+                        "Electric cyan, neon magenta, violet, deep blue, charcoal black, metallic gray, and subtle warm amber highlights.";
+
+                    materials =
+                        "Rain-covered asphalt, reflective glass, brushed metal, dark concrete, illuminated plastic, holographic surfaces, wet cables, futuristic vehicle panels, and highly detailed architectural textures.";
+
+                    extraDetails =
+                        "Include pedestrians wearing sleek futuristic clothing, small robotic devices, glowing signs in multiple languages, cables between buildings, ventilation systems releasing steam, rooftop structures, distant aircraft, illuminated windows, and subtle signs of everyday life.";
+                }
+
+                // PORTRAIT
+                else if (hasAny(ideaLower, [
+                    "portrait",
+                    "person",
+                    "girl",
+                    "boy",
+                    "man",
+                    "woman",
+                    "face",
+                    "character"
+                ])) {
 
-                atmosphere =
-                "A calm cinematic atmosphere with subtle environmental depth, natural air, gentle background blur, and a mood that matches the original concept.";
+                    subject =
+                        "A clearly defined human character with realistic facial proportions, expressive eyes, natural skin texture, detailed hairstyle, carefully designed clothing, and a distinct visual identity.";
 
-                camera =
-                "Professional portrait photography, 85mm lens, medium close-up framing, eye-level camera angle, shallow depth of field, precise focus on the eyes, and soft background separation.";
+                    environment =
+                        "A visually appropriate environment that supports the character, with a softly detailed background, natural depth, subtle environmental storytelling, and elements that complement the subject.";
 
-                lighting =
-                "Soft directional key light, subtle fill light, gentle rim lighting, realistic facial shadows, controlled highlights in the eyes, and natural skin illumination.";
+                    technology =
+                        "Use relevant objects, accessories, clothing details, or futuristic elements only when they naturally support the character and original concept.";
 
-                colors =
-                "A refined color palette based on the subject's clothing and environment, with natural skin tones and cinematic contrast.";
+                    atmosphere =
+                        "A carefully controlled atmosphere with subtle environmental particles, realistic air depth, gentle background separation, and a mood matching the original idea.";
 
-                materials =
-                "Realistic skin pores, individual hair strands, fabric fibers, subtle clothing folds, natural eye reflections, and believable surface textures.";
+                    camera =
+                        "Professional portrait photography composition, natural perspective, 50mm or 85mm lens characteristics, controlled framing, realistic depth of field, sharp eyes, and strong subject separation.";
+
+                    lighting =
+                        "Soft directional key light, subtle fill light, natural rim lighting, realistic facial shadows, controlled highlights, and cinematic skin illumination.";
+
+                    colors =
+                        "A sophisticated cinematic color palette chosen to complement the character, clothing, environment, and requested style.";
+
+                    materials =
+                        "Detailed skin texture, individual hair strands, realistic fabric, leather, metal accessories, natural surface imperfections, and physically believable materials.";
+
+                    extraDetails =
+                        "Add subtle facial expression, natural posture, realistic clothing folds, small environmental details, and believable interactions between the character and surroundings.";
+                }
+
+                // LANDSCAPE
+                else if (hasAny(ideaLower, [
+                    "landscape",
+                    "mountain",
+                    "forest",
+                    "nature",
+                    "valley",
+                    "lake",
+                    "ocean",
+                    "beach"
+                ])) {
 
-                extraDetails =
-                "Add natural posture, subtle facial expression, realistic imperfections, detailed eyelashes, individual hair strands, clothing accessories, and believable interaction between the subject and the environment.";
+                    subject =
+                        "A dramatic natural landscape with a clearly defined focal environment, detailed terrain, vegetation, geological formations, and strong visual depth.";
 
-            }
+                    environment =
+                        "An expansive environment with layered foreground, midground, and background elements, atmospheric perspective, natural terrain variation, distant scenery, and believable environmental conditions.";
 
+                    technology =
+                        "Avoid unnecessary technology unless it naturally belongs to the original concept. Add only objects that strengthen the visual story.";
 
-            // -------------------------------------------------
-            // LANDSCAPE
-            // -------------------------------------------------
+                    atmosphere =
+                        "Natural atmospheric haze, clouds, mist, wind movement, airborne particles, realistic humidity, and environmental depth.";
 
-            else if (hasAny(ideaLower, [
-                "landscape",
-                "mountain",
-                "forest",
-                "nature",
-                "river",
-                "waterfall",
-                "lake",
-                "valley",
-                "beach"
-            ])) {
+                    camera =
+                        "Wide cinematic landscape composition using a 24mm wide-angle lens, strong leading lines, balanced foreground, dramatic horizon placement, and deep focus.";
+
+                    lighting =
+                        "Natural directional sunlight or dramatic golden-hour lighting with realistic shadows, highlights, atmospheric light rays, and subtle environmental reflections.";
+
+                    colors =
+                        "Rich natural greens, earthy browns, atmospheric blues, soft highlights, and a cinematic color grade appropriate to the requested style.";
+
+                    materials =
+                        "Detailed rocks, soil, vegetation, water surfaces, tree bark, clouds, terrain textures, and realistic natural materials.";
+
+                    extraDetails =
+                        "Add small environmental storytelling elements such as distant wildlife, trails, plants, weather effects, reflections, or subtle human presence when appropriate.";
+                }
+
+                // ARCHITECTURE / CITY
+                else if (hasAny(ideaLower, [
+                    "building",
+                    "architecture",
+                    "house",
+                    "city",
+                    "skyscraper",
+                    "tower",
+                    "street"
+                ])) {
 
-                subject =
-                "A breathtaking natural landscape with a clearly defined environmental focal point, layered terrain, distinctive geological or natural features, and strong visual depth.";
+                    subject =
+                        "A visually striking architectural structure with clearly defined geometry, scale, facade design, windows, entrances, structural elements, and surrounding urban context.";
 
-                environment =
-                "An expansive environment containing foreground vegetation or rocks, a detailed middle ground, distant terrain, atmospheric mountains, natural water features where appropriate, and a believable sky.";
+                    environment =
+                        "A believable city or architectural environment with streets, surrounding buildings, pedestrians, vehicles, landscaping, infrastructure, and realistic spatial relationships.";
 
-                technology =
-                "Use realistic environmental rendering with physically believable scale, atmospheric perspective, natural terrain formation, and detailed ecological elements.";
+                    technology =
+                        "Add appropriate transportation systems, digital displays, smart infrastructure, lighting systems, or futuristic architectural technology when relevant.";
 
-                atmosphere =
-                "Fresh atmospheric air, soft mist, drifting clouds, subtle environmental particles, natural haze, and weather conditions that enhance the landscape.";
+                    atmosphere =
+                        "Detailed environmental atmosphere including weather, haze, reflections, shadows, airborne particles, and realistic urban activity.";
 
-                camera =
-                "Wide cinematic landscape composition using a 24mm wide-angle perspective, strong foreground interest, layered depth, balanced horizon placement, and expansive environmental framing.";
+                    camera =
+                        "Cinematic architectural photography using a wide-angle lens, strong geometric perspective, controlled vertical lines, dramatic framing, and realistic depth.";
+
+                    lighting =
+                        "Directional natural or artificial lighting interacting realistically with the building facade, glass, metal, concrete, windows, and surrounding environment.";
+
+                    colors =
+                        "A professional architectural color palette with balanced tones, controlled contrast, and colors supporting the selected style.";
+
+                    materials =
+                        "Glass, steel, concrete, stone, wood, brushed metal, illuminated surfaces, realistic windows, structural joints, and detailed facade textures.";
+
+                    extraDetails =
+                        "Include realistic signs, doors, windows, street furniture, vehicles, pedestrians, vegetation, utility systems, and small architectural details.";
+                }
 
-                lighting =
-                "Natural directional sunlight with realistic shadows, soft atmospheric highlights, subtle cloud shadows, volumetric sun rays, and detailed illumination across the terrain.";
+                // PRODUCT / CAR / TECH
+                else if (hasAny(ideaLower, [
+                    "product",
+                    "car",
+                    "phone",
+                    "laptop",
+                    "watch",
+                    "shoes",
+                    "bottle",
+                    "robot",
+                    "vehicle"
+                ])) {
 
-                colors =
-                "Natural greens, earthy browns, cool blues, atmospheric whites, and subtle golden highlights.";
+                    subject =
+                        "A premium, clearly defined product with precise proportions, sophisticated design language, realistic surface details, functional components, and a polished professional appearance.";
 
-                materials =
-                "Detailed rocks, soil, vegetation, tree bark, water surfaces, clouds, grass, sand, and naturally varied terrain textures.";
+                    environment =
+                        "A carefully designed studio or contextual environment that supports the product without distracting from it.";
 
-                extraDetails =
-                "Add birds in the distance, small vegetation, distant structures only when relevant, natural erosion patterns, water reflections, clouds moving across the landscape, and subtle environmental storytelling.";
+                    technology =
+                        "Highlight relevant functional components, interfaces, mechanisms, materials, and technological features that naturally belong to the product.";
 
-            }
+                    atmosphere =
+                        "Clean controlled atmosphere with subtle depth, realistic reflections, carefully placed environmental elements, and a premium commercial mood.";
 
+                    camera =
+                        "Professional product photography using a 50mm or 85mm lens, precise framing, controlled perspective, shallow-to-moderate depth of field, and strong product separation.";
+
+                    lighting =
+                        "Professional studio lighting with large softboxes, controlled highlights, subtle rim lighting, realistic reflections, and carefully shaped shadows.";
+
+                    colors =
+                        "Premium commercial color grading with a cohesive palette that complements the product design.";
 
-            // -------------------------------------------------
-            // ARCHITECTURE / CITY
-            // -------------------------------------------------
+                    materials =
+                        "Realistic metal, glass, plastic, leather, rubber, fabric, polished surfaces, micro-textures, seams, buttons, and material transitions.";
 
-            else if (hasAny(ideaLower, [
-                "building",
-                "architecture",
-                "house",
-                "city",
-                "skyscraper",
-                "street",
-                "office"
-            ])) {
+                    extraDetails =
+                        "Add realistic product imperfections, precise edges, reflections, contact shadows, packaging elements, and premium commercial presentation.";
+                }
 
-                subject =
-                "A visually distinctive architectural structure with clearly defined geometry, scale, entrances, windows, structural elements, and a coherent design language.";
+                // SPACE / SCI-FI
+                else if (hasAny(ideaLower, [
+                    "space",
+                    "galaxy",
+                    "planet",
+                    "astronaut",
+                    "spaceship",
+                    "sci-fi",
+                    "science fiction"
+                ])) {
 
-                environment =
-                "A believable surrounding environment containing streets, sidewalks, neighboring structures, vegetation or urban infrastructure, pedestrians, vehicles, and realistic spatial relationships.";
+                    subject =
+                        "A highly detailed futuristic space subject with believable engineering, clearly defined structures, advanced equipment, and a strong visual focal point.";
 
-                technology =
-                "Use believable architectural engineering, functional infrastructure, lighting systems, transportation networks, elevators, signage, and environmental systems appropriate to the concept.";
+                    environment =
+                        "A vast cosmic environment containing planets, stars, nebulae, orbital structures, distant spacecraft, or futuristic stations appropriate to the original concept.";
 
-                atmosphere =
-                "A realistic environmental atmosphere with appropriate weather, air quality, shadows, reflections, distant activity, and subtle signs of human use.";
+                    technology =
+                        "Advanced spacecraft systems, holographic interfaces, robotic equipment, energy systems, communication arrays, and believable futuristic engineering.";
 
-                camera =
-                "Professional architectural photography using a wide-angle lens, carefully controlled perspective, strong vertical lines, balanced framing, and realistic spatial depth.";
+                    atmosphere =
+                        "Deep cosmic darkness, glowing particles, subtle atmospheric light, distant stars, planetary haze, and dramatic spatial depth.";
 
-                lighting =
-                "Natural or architectural lighting with controlled highlights, realistic window illumination, structural shadows, reflections, and carefully balanced exposure.";
+                    camera =
+                        "Epic cinematic wide-angle composition with dramatic perspective, strong scale relationships, deep focus, and carefully controlled framing.";
 
-                colors =
-                "A sophisticated architectural palette using concrete neutrals, glass blues, metallic tones, natural materials, and accent colors appropriate to the concept.";
+                    lighting =
+                        "Strong directional cosmic lighting, intense highlights, deep shadows, glowing planetary light, and realistic illumination across spacecraft surfaces.";
 
-                materials =
-                "Glass, concrete, steel, stone, wood, brushed metal, polished surfaces, brick, pavement, and realistic architectural textures.";
+                    colors =
+                        "Deep black, electric blue, violet, cyan, white highlights, and subtle planetary colors.";
 
-                extraDetails =
-                "Add balconies, entrances, signage, street furniture, windows with interior activity, transportation infrastructure, pedestrians, plants, drainage systems, and small structural details.";
+                    materials =
+                        "Advanced metal alloys, reflective glass, carbon composites, illuminated panels, mechanical components, and realistic spacecraft surfaces.";
 
-            }
+                    extraDetails =
+                        "Add distant stars, small spacecraft, orbital debris, glowing interfaces, structural details, and subtle engineering elements.";
+                }
 
+                // FANTASY
+                else if (hasAny(ideaLower, [
+                    "fantasy",
+                    "magic",
+                    "wizard",
+                    "dragon",
+                    "castle",
+                    "mythical"
+                ])) {
 
-            // -------------------------------------------------
-            // PRODUCT / CAR / PHONE / WATCH
-            // -------------------------------------------------
+                    subject =
+                        "A richly designed fantasy subject with distinctive visual characteristics, detailed clothing or armor, expressive features, and believable interaction with the magical environment.";
 
-            else if (hasAny(ideaLower, [
-                "product",
-                "phone",
-                "smartphone",
-                "car",
-                "watch",
-                "laptop",
-                "headphone",
-                "shoes",
-                "bottle"
-            ])) {
+                    environment =
+                        "An expansive fantasy environment with ancient architecture, mystical landscapes, atmospheric depth, natural elements, and carefully designed environmental storytelling.";
 
-                subject =
-                "The product is the unmistakable hero subject, presented with clearly defined proportions, premium materials, refined industrial design, precise edges, and carefully controlled visual details.";
+                    technology =
+                        "Replace technology with believable magical objects, artifacts, glowing symbols, enchanted structures, or mystical mechanisms when appropriate.";
 
-                environment =
-                "A premium commercial presentation environment with a clean background, subtle supporting surfaces, controlled spatial depth, and no distracting objects.";
+                    atmosphere =
+                        "Magical mist, floating particles, glowing energy, atmospheric haze, dramatic clouds, and an immersive mysterious mood.";
 
-                technology =
-                "Highlight the product's functional design, modern engineering, interfaces, buttons, ports, displays, mechanical components, and technology where relevant.";
+                    camera =
+                        "Epic cinematic composition with a wide lens, dramatic perspective, strong subject placement, and deep environmental storytelling.";
 
-                atmosphere =
-                "Clean, premium, controlled, sophisticated, and visually polished commercial atmosphere.";
+                    lighting =
+                        "Magical volumetric lighting, glowing highlights, directional moonlight or sunlight, atmospheric shadows, and realistic illumination.";
 
-                camera =
-                "High-end commercial product photography using a 50mm or 85mm lens, precise framing, controlled perspective, sharp product focus, and subtle depth of field.";
+                    colors =
+                        "Deep blues, violet, emerald, gold, warm amber, and subtle magical highlights.";
 
-                lighting =
-                "Large softbox key lighting, controlled rim lighting, precise specular highlights, soft shadows, and carefully positioned reflections that reveal the product's shape.";
+                    materials =
+                        "Stone, ancient wood, metal armor, fabric, leather, crystals, magical surfaces, vegetation, and detailed environmental textures.";
 
-                colors =
-                "A premium restrained color palette that complements the product while maintaining strong subject separation.";
+                    extraDetails =
+                        "Add subtle magical particles, ancient symbols, distant creatures, weather effects, architectural details, and small storytelling elements.";
+                }
 
-                materials =
-                "Brushed aluminum, polished glass, premium plastic, leather, rubber, metal edges, realistic reflections, micro-scratches, and fine surface details where appropriate.";
+                // HORROR
+                else if (hasAny(ideaLower, [
+                    "horror",
+                    "haunted",
+                    "ghost",
+                    "dark",
+                    "scary",
+                    "abandoned"
+                ])) {
 
-                extraDetails =
-                "Add realistic buttons, seams, ports, reflections, display details, subtle branding placement, realistic shadows, and carefully controlled contact with the presentation surface.";
+                    subject =
+                        "A disturbing but clearly defined horror subject with unsettling visual characteristics, realistic textures, and a strong psychological presence.";
 
-            }
+                    environment =
+                        "An abandoned or isolated environment with decaying architecture, empty corridors, damaged structures, overgrown vegetation, and signs of neglect.";
 
+                    technology =
+                        "Use broken lights, old monitors, abandoned equipment, flickering electronics, or other environmental technology only when appropriate.";
 
-            // -------------------------------------------------
-            // SPACE / SCI-FI
-            // -------------------------------------------------
+                    atmosphere =
+                        "Dense fog, dust particles, cold humid air, drifting mist, darkness, subtle environmental movement, and an oppressive atmosphere.";
 
-            else if (hasAny(ideaLower, [
-                "space",
-                "galaxy",
-                "planet",
-                "spaceship",
-                "sci-fi",
-                "astronaut",
-                "mars"
-            ])) {
+                    camera =
+                        "Low-angle cinematic framing with a slightly wide lens, deep shadows, controlled perspective, and deliberate negative space.";
 
-                subject =
-                "A highly detailed futuristic space subject with advanced engineering, clearly defined surfaces, mechanical components, and believable scale.";
+                    lighting =
+                        "Minimal directional lighting, flickering practical lights, harsh shadows, subtle rim lighting, and dramatic areas of darkness.";
 
-                environment =
-                "A vast cosmic environment containing stars, distant planets, nebulae, orbital structures, planetary surfaces, or spacecraft surroundings appropriate to the concept.";
+                    colors =
+                        "Desaturated blue-gray tones, black, muted green, dark red accents, and limited warm highlights.";
 
-                technology =
-                "Advanced propulsion systems, illuminated control interfaces, docking systems, robotic mechanisms, communication arrays, energy systems, and realistic spacecraft engineering.";
+                    materials =
+                        "Aged concrete, cracked walls, rusted metal, dirty glass, decaying wood, wet surfaces, dust, and damaged fabrics.";
 
-                atmosphere =
-                "Deep cosmic darkness, subtle atmospheric glow, floating particles, distant celestial light, volumetric illumination, and immense environmental scale.";
+                    extraDetails =
+                        "Add subtle signs of previous human activity, distant silhouettes, damaged objects, footprints, flickering lights, and environmental clues.";
+                }
 
-                camera =
-                "Cinematic wide-angle space composition with strong subject framing, realistic perspective, deep environmental scale, and carefully controlled depth.";
+                // DEFAULT IMAGE
+                else {
 
-                lighting =
-                "Cool celestial lighting mixed with controlled artificial spacecraft lights, rim lighting, reflective metallic highlights, and subtle volumetric illumination.";
+                    subject =
+                        `A clearly defined main subject based on "${idea}", with relevant appearance, characteristics, objects, and visual elements that naturally support the original concept.`;
 
-                colors =
-                "Deep black, midnight blue, violet, cool white, metallic silver, and subtle cyan highlights.";
+                    environment =
+                        "A believable environment built specifically around the subject, including appropriate location, architecture, weather, time of day, background elements, and environmental features.";
 
-                materials =
-                "Titanium, carbon fiber, reinforced glass, metallic panels, heat shields, cables, mechanical joints, illuminated interfaces, and realistic spacecraft surfaces.";
+                    technology =
+                        "Introduce technology, objects, transportation, interfaces, or infrastructure only when they naturally fit the original concept.";
 
-                extraDetails =
-                "Add distant stars, planetary bodies, orbital debris, small spacecraft components, illuminated windows, navigation lights, and believable engineering details.";
+                    atmosphere =
+                        "A carefully designed atmosphere with appropriate weather, air quality, fog, particles, reflections, environmental depth, and mood.";
 
-            }
+                    camera =
+                        "A professional cinematic camera angle and framing with an appropriate lens, realistic perspective, controlled depth of field, and strong visual balance.";
 
+                    lighting =
+                        "Detailed directional lighting with realistic shadows, highlights, reflections, ambient illumination, and mood appropriate to the concept.";
 
-            // -------------------------------------------------
-            // FANTASY
-            // -------------------------------------------------
+                    colors =
+                        `A professional color palette that supports the ${style} visual style and overall atmosphere.`;
 
-            else if (hasAny(ideaLower, [
-                "fantasy",
-                "magic",
-                "castle",
-                "dragon",
-                "wizard",
-                "magical",
-                "fairy"
-            ])) {
+                    materials =
+                        "Realistic surfaces, materials, textures, environmental details, and subtle imperfections appropriate to the scene.";
 
-                subject =
-                "A distinctive fantasy subject with detailed clothing, recognizable visual characteristics, believable proportions, and carefully designed magical or mythical elements.";
+                    extraDetails =
+                        "Add meaningful visual details that make the environment feel alive while keeping every element relevant to the original idea.";
+                }
 
-                environment =
-                "An immersive fantasy world containing ancient architecture, dramatic landscapes, mysterious structures, magical locations, forests, mountains, or castles appropriate to the concept.";
+                // STYLE INTELLIGENCE
 
-                technology =
-                "Replace modern technology with believable fantasy mechanisms, magical artifacts, ancient mechanisms, enchanted objects, or mystical energy systems where appropriate.";
+                let styleDirection = "";
 
-                atmosphere =
-                "Mystical fog, floating particles, magical energy, soft atmospheric haze, dramatic clouds, and an immersive sense of wonder.";
+                if (style === "cinematic") {
+                    styleDirection =
+                        "Premium cinematic visual language, dramatic composition, film-quality production design, atmospheric depth, realistic lighting, sophisticated color grading, and immersive visual storytelling.";
+                }
 
-                camera =
-                "Cinematic fantasy composition with a wide environmental perspective, strong subject placement, layered depth, and dramatic visual storytelling.";
+                else if (style === "creative") {
+                    styleDirection =
+                        "Highly creative visual interpretation with imaginative composition, distinctive design choices, expressive details, artistic atmosphere, and strong visual identity.";
+                }
 
-                lighting =
-                "Dramatic moonlight, magical glowing sources, warm firelight, volumetric rays, soft atmospheric highlights, and deep cinematic shadows.";
+                else if (style === "professional") {
+                    styleDirection =
+                        "Clean professional visual direction, precise composition, realistic details, controlled lighting, polished presentation, and high visual consistency.";
+                }
 
-                colors =
-                "Deep emerald, royal blue, violet, gold, warm amber, and muted earthy tones.";
+                else {
+                    styleDirection =
+                        "Clean and simple visual direction with clear subject focus, balanced composition, natural lighting, and only relevant supporting details.";
+                }
 
-                materials =
-                "Ancient stone, weathered wood, metal armor, leather, magical crystals, flowing fabrics, moss, vegetation, and atmospheric environmental textures.";
-
-                extraDetails =
-                "Add magical particles, ancient symbols, distant creatures, glowing artifacts, detailed costumes, environmental ruins, and subtle signs of an ancient civilization.";
-
-            }
-
-
-            // -------------------------------------------------
-            // HORROR
-            // -------------------------------------------------
-
-            else if (hasAny(ideaLower, [
-                "horror",
-                "scary",
-                "haunted",
-                "dark",
-                "ghost",
-                "abandoned"
-            ])) {
-
-                subject =
-                "A visually unsettling central subject designed around the original idea, with realistic physical details, subtle imperfections, and an eerie visual presence.";
-
-                environment =
-                "An isolated abandoned environment containing damaged structures, aged surfaces, empty corridors, broken objects, overgrown areas, and believable signs of decay.";
-
-                technology =
-                "Use old or malfunctioning technology, flickering lights, damaged electrical systems, abandoned devices, or surveillance equipment when relevant.";
-
-                atmosphere =
-                "Dense fog, cold humid air, floating dust, subtle particles, deep darkness, silence, and an intense feeling of isolation.";
-
-                camera =
-                "Low or slightly off-center cinematic framing, realistic wide-angle perspective, controlled depth of field, and composition designed to create visual tension.";
-
-                lighting =
-                "Very limited practical lighting, flickering fluorescent sources, narrow beams, deep shadows, subtle rim lighting, and strong contrast.";
-
-                colors =
-                "Desaturated gray, dark blue, black, muted green, and small areas of dirty warm light.";
-
-                materials =
-                "Cracked concrete, rusted metal, peeling paint, dirty glass, aged wood, dust, moisture, and decaying surfaces.";
-
-                extraDetails =
-                "Add abandoned furniture, damaged signage, hanging wires, footprints, distant silhouettes only when appropriate, broken windows, moisture, and subtle environmental clues.";
-
-            }
-
-
-            // -------------------------------------------------
-            // ANIME
-            // -------------------------------------------------
-
-            else if (ideaLower.includes("anime")) {
-
-                subject =
-                "A polished anime-inspired main character or subject with expressive eyes, carefully designed hair, stylized proportions, distinctive clothing, and a strong visual identity.";
-
-                environment =
-                "A detailed anime-inspired environment with expressive skies, carefully designed architecture or nature, atmospheric depth, and visual elements that support the story.";
-
-                technology =
-                "Use stylized technology, futuristic interfaces, fantasy objects, vehicles, or environmental elements appropriate to the original concept.";
-
-                atmosphere =
-                "Expressive atmospheric effects, drifting particles, soft clouds, wind movement, glowing accents, and cinematic environmental depth.";
-
-                camera =
-                "Dynamic anime-style cinematic framing with strong perspective, expressive composition, dramatic subject placement, and controlled depth.";
-
-                lighting =
-                "Stylized directional lighting, glowing highlights, soft shadows, atmospheric rim light, and dramatic environmental illumination.";
-
-                colors =
-                "Vibrant saturated colors balanced with cinematic shadows and carefully controlled highlights.";
-
-                materials =
-                "Detailed clothing fabrics, stylized hair, polished surfaces, environmental textures, reflective objects, and clean visual rendering.";
-
-                extraDetails =
-                "Add expressive facial details, flowing hair, dynamic clothing movement, environmental particles, background storytelling, and visual effects appropriate to the scene.";
-
-            }
-
-
-            // -------------------------------------------------
-            // DEFAULT IMAGE INTELLIGENCE
-            // -------------------------------------------------
-
-            else {
-
-                subject =
-                `A clearly defined main subject based directly on "${idea}", with appropriate appearance, proportions, characteristics, objects, clothing, and visual identity.`;
-
-                environment =
-                `A believable environment specifically designed around "${idea}", including an appropriate location, background elements, time of day, weather, and surrounding objects.`;
-
-                technology =
-                "Introduce technology, tools, architecture, transportation, or interfaces only when they naturally support the original concept.";
-
-                atmosphere =
-                "A coherent atmosphere with appropriate weather, air quality, environmental particles, reflections, and mood.";
-
-                camera =
-                "A professional cinematic composition with an appropriate camera angle, framing, perspective, lens characteristics, and depth of field.";
-
-                lighting =
-                `Lighting designed to match the ${style} visual style, with believable direction, shadows, highlights, reflections, and atmospheric depth.`;
-
-                colors =
-                "A carefully selected color palette that naturally supports the subject, environment, mood, and requested visual style.";
-
-                materials =
-                "Realistic materials, surfaces, textures, reflections, and small environmental details appropriate to the concept.";
-
-                extraDetails =
-                "Add only relevant visual elements that strengthen the original idea without changing its core meaning.";
-
-            }
-
-
-            // -------------------------------------------------
-            // STYLE INTELLIGENCE
-            // -------------------------------------------------
-
-            let styleDetails = "";
-
-            if (style === "cinematic") {
-                styleDetails =
-                "Use dramatic cinematic framing, strong visual hierarchy, filmic contrast, atmospheric depth, realistic lens behavior, and sophisticated lighting.";
-            }
-
-            else if (style === "creative") {
-                styleDetails =
-                "Use imaginative visual storytelling, distinctive composition, expressive details, creative perspective, and visually memorable elements.";
-            }
-
-            else if (style === "professional") {
-                styleDetails =
-                "Use clean composition, precise visual hierarchy, controlled lighting, realistic proportions, polished presentation, and professional visual consistency.";
-            }
-
-            else {
-                styleDetails =
-                "Keep the composition clean, understandable, balanced, visually appealing, and free from unnecessary complexity.";
-            }
-
-
-            // -------------------------------------------------
-            // FINAL IMAGE PROMPT
-            // -------------------------------------------------
-
-            expandedIdea =
+                expandedIdea =
 `Create a ${style}, highly detailed AI image based on this original idea:
 
 "${idea}"
@@ -535,10 +448,16 @@ ${environment}
 TECHNOLOGY & OBJECTS:
 ${technology}
 
+VISUAL STORY:
+Create natural interactions between the subject, environment, people, objects, and surrounding elements. Make the scene feel alive and purposeful rather than artificially assembled.
+
 ATMOSPHERE:
 ${atmosphere}
 
 COMPOSITION:
+Use strong foreground, midground, and background separation. Create visual depth, clear subject hierarchy, leading lines, balanced framing, and intentional placement of major elements.
+
+CAMERA:
 ${camera}
 
 LIGHTING:
@@ -554,223 +473,242 @@ ADDITIONAL VISUAL DETAILS:
 ${extraDetails}
 
 STYLE DIRECTION:
-${styleDetails}
+${styleDirection}
 
 CORE IDEA PROTECTION:
-All added details must naturally support the original idea. Do not replace the main concept with unrelated elements.
+Preserve the original idea exactly at its core. Every added detail must naturally support the concept rather than changing its meaning.
 
 QUALITY:
-Create a coherent, immersive, highly detailed, polished, professional image with realistic spatial relationships, consistent lighting, believable materials, strong composition, and excellent visual storytelling.
+Ultra-detailed, immersive, photorealistic where appropriate, coherent, professionally composed, realistic proportions, physically believable lighting, detailed textures, strong atmospheric depth, polished visual storytelling, and optimized for modern AI image generation.
 
 NEGATIVE:
-Avoid blurry details, distorted anatomy, duplicate objects, malformed structures, random text, incorrect perspective, inconsistent lighting, low resolution, visual artifacts, and unnecessary elements.
+Avoid generic visuals, unnecessary objects, inconsistent perspective, distorted anatomy, unrealistic materials, flat lighting, excessive clutter, poor composition, low-detail environments, blurry textures, and elements unrelated to the original idea.
 
 OUTPUT:
-Return one complete, ready-to-use AI image generation prompt.`;
+Return one complete, polished, ready-to-use AI image generation prompt.`;
+            }
 
-        }
+            // =====================================================
+            // VIDEO MODE
+            // =====================================================
 
+            else if (aiType === "video") {
 
-        // =====================================================
-        // VIDEO
-        // =====================================================
-
-        else if (aiType === "video") {
-
-            expandedIdea =
-`Create a ${style} AI video based on this idea:
+                expandedIdea =
+`Create a ${style}, highly detailed AI video based on this idea:
 
 "${idea}"
+
+VIDEO INTELLIGENCE:
 
 SCENE:
-Build a complete environment around the concept with a clear location, time of day, weather, atmosphere, background elements, and visual context.
+Define the main environment, location, time of day, weather, and visual context.
 
-SUBJECT:
-Clearly define the main subjects, their appearance, position, and relationship with the environment.
-
-ACTION:
-Describe specific physical actions and meaningful movement rather than static subjects.
+SUBJECT & ACTION:
+Clearly describe the main subject and exactly what it is doing. Make the movement natural, purposeful, and visually understandable.
 
 CAMERA:
-Use cinematic establishing shots, medium shots, close-ups, tracking shots, dolly movement, crane movement, or handheld motion where appropriate.
+Specify camera angle, framing, lens characteristics, camera movement, tracking, pans, tilts, zooms, and transitions.
 
 MOTION:
-Include realistic movement of people, vehicles, objects, clothing, vegetation, weather, particles, and environmental elements.
+Describe realistic movement of characters, objects, vehicles, clothing, hair, particles, weather, and environmental elements.
 
 LIGHTING:
-Define the direction, intensity, color, shadows, highlights, reflections, and changes in lighting throughout the sequence.
+Define directional lighting, shadows, highlights, reflections, practical lights, and atmospheric illumination.
+
+ATMOSPHERE:
+Add appropriate weather, fog, particles, smoke, dust, rain, reflections, and environmental movement.
 
 PACING:
-Create a clear visual progression with an engaging beginning, development, and ending.
+Create cinematic pacing with a clear beginning, visual development, and satisfying ending.
 
-STYLE:
-${style} visual language with strong cinematic storytelling and consistent visual design.
+VISUAL STYLE:
+${style} visual language with professional composition, strong storytelling, realistic materials, and consistent visual identity.
 
 QUALITY:
-Maintain realistic motion, temporal consistency, detailed environments, coherent subjects, stable camera movement, and professional cinematic quality.
+Smooth motion, consistent subjects, realistic physics, coherent environments, cinematic lighting, high detail, professional production quality, and temporal consistency.
 
 OUTPUT:
-Return one complete ready-to-use AI video generation prompt.`;
+Return one complete, ready-to-use AI video generation prompt.`;
+            }
 
-        }
+            // =====================================================
+            // TEXT MODE
+            // =====================================================
 
+            else if (aiType === "text") {
 
-        // =====================================================
-        // TEXT
-        // =====================================================
-
-        else if (aiType === "text") {
-
-            expandedIdea =
-`Create ${style} content based on this idea:
+                expandedIdea =
+`Create a ${style}, high-quality AI text response based on this idea:
 
 "${idea}"
+
+TEXT INTELLIGENCE:
+
+OBJECTIVE:
+Clearly identify the purpose of the content and the result that should be achieved.
 
 AUDIENCE:
-Identify the most relevant audience and adapt the complexity accordingly.
-
-PURPOSE:
-Determine the main purpose of the content and keep every section focused on that goal.
+Determine the most appropriate target audience and adapt vocabulary, complexity, and explanation accordingly.
 
 STRUCTURE:
-Create a strong introduction, logical sections, supporting points, useful examples, and a clear conclusion.
-
-CONTENT:
-Expand the idea with relevant context, practical information, examples, explanations, and useful insights.
+Organize the response with a strong introduction, logical sections, useful details, and a clear conclusion when appropriate.
 
 TONE:
-Use a ${style} tone while remaining natural and engaging.
+Use a ${style} communication style that feels natural, confident, clear, and engaging.
+
+CONTENT:
+Expand the original idea with relevant information, examples, explanations, context, and practical details without adding unnecessary information.
+
+CLARITY:
+Use precise language, logical flow, readable formatting, and clear explanations.
 
 QUALITY:
-Make the content clear, accurate, useful, original, well-organized, and professional.
+Make the final response accurate, useful, polished, coherent, engaging, and professionally written.
 
 OUTPUT:
-Return polished, ready-to-use content.`;
+Return one complete, ready-to-use AI writing prompt.`;
+            }
 
-        }
+            // =====================================================
+            // CODE MODE
+            // =====================================================
 
+            else if (aiType === "code") {
 
-        // =====================================================
-        // CODE
-        // =====================================================
-
-        else if (aiType === "code") {
-
-            expandedIdea =
-`Develop a ${style} software solution based on this idea:
+                expandedIdea =
+`Create a professional AI coding prompt based on this idea:
 
 "${idea}"
 
-FUNCTIONAL REQUIREMENTS:
-Define exactly what the application, feature, or system should do.
+CODE INTELLIGENCE:
 
-USER EXPERIENCE:
-Describe the expected user flow, inputs, interactions, outputs, and important states.
+REQUIREMENTS:
+Clearly define the functionality, user requirements, inputs, outputs, and expected behavior.
 
 ARCHITECTURE:
-Choose an appropriate structure, components, data flow, APIs, storage, and dependencies.
+Recommend a suitable technical architecture, file structure, components, modules, APIs, and dependencies where relevant.
 
 IMPLEMENTATION:
-Use clean, maintainable, efficient, and readable code.
+Generate clean, maintainable, readable, modular code following appropriate best practices.
 
-EDGE CASES:
-Handle invalid inputs, unexpected states, failures, empty states, and boundary conditions.
+ERROR HANDLING:
+Consider invalid inputs, edge cases, failures, unexpected behavior, and graceful error handling.
 
 SECURITY:
-Consider validation, privacy, permissions, authentication, authorization, and common security risks where relevant.
+Identify relevant security considerations and avoid unsafe implementation patterns.
+
+PERFORMANCE:
+Optimize the solution where appropriate without sacrificing readability or maintainability.
 
 TESTING:
-Include important test cases and expected behavior.
+Include appropriate test cases, validation steps, and debugging guidance.
+
+EXPLANATION:
+Explain important implementation decisions clearly when necessary.
 
 QUALITY:
-Make the solution scalable, maintainable, secure, efficient, and production-ready.
+The final solution should be reliable, scalable, maintainable, efficient, and production-ready where appropriate.
 
 OUTPUT:
-Return a complete professional coding solution with explanations where useful.`;
+Return one complete, ready-to-use AI coding prompt.`;
+            }
 
-        }
+            // =====================================================
+            // STUDY MODE
+            // =====================================================
 
+            else if (aiType === "study") {
 
-        // =====================================================
-        // STUDY
-        // =====================================================
-
-        else if (aiType === "study") {
-
-            expandedIdea =
-`Teach this topic using a ${style} learning approach:
+                expandedIdea =
+`Create a professional AI study prompt based on this idea:
 
 "${idea}"
 
-FOUNDATION:
-Explain the prerequisites and fundamental concepts first.
+STUDY INTELLIGENCE:
 
-STEP-BY-STEP EXPLANATION:
-Break the topic into simple logical sections and explain each concept clearly.
+LEVEL:
+Adapt the explanation to the learner's level and existing understanding.
+
+CONCEPTS:
+Break the topic into clear concepts and explain difficult ideas step by step.
 
 EXAMPLES:
-Use practical examples and progressively harder applications.
+Use simple examples, analogies, diagrams-in-words, and practical applications where useful.
 
-EXAM INTELLIGENCE:
-Highlight important formulas, concepts, shortcuts, common mistakes, traps, and frequently tested areas.
+EXAM FOCUS:
+Highlight important concepts, formulas, definitions, patterns, and commonly tested areas.
+
+COMMON MISTAKES:
+Identify mistakes students commonly make and explain how to avoid them.
 
 PRACTICE:
-Create questions from basic to advanced difficulty with answers or explanations.
+Provide practice questions progressing from basic understanding to challenging application.
 
 REVISION:
-Finish with concise notes, key formulas, important facts, and a quick revision checklist.
+Include a concise revision strategy, key takeaways, and memory techniques where appropriate.
 
 QUALITY:
-Make the lesson understandable, structured, engaging, accurate, and exam-focused.
+Make the learning experience clear, structured, engaging, accurate, and optimized for effective exam preparation.
 
 OUTPUT:
-Return a complete learning experience.`;
+Return one complete, ready-to-use AI study prompt.`;
+            }
 
-        }
+            // =====================================================
+            // SHOW RESULT
+            // =====================================================
 
+            const resultBox = document.getElementById("resultBox");
+            const promptResult = document.getElementById("promptResult");
 
-        // =====================================================
-        // DISPLAY
-        // =====================================================
+            if (promptResult) {
+                promptResult.textContent = expandedIdea;
+            }
 
-        promptResult.textContent = expandedIdea;
+            if (resultBox) {
+                resultBox.style.display = "block";
 
-        resultBox.style.display = "block";
+                resultBox.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
 
-        resultBox.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
         });
-
-    });
-
+    }
 
     // =========================
-    // COPY
+    // COPY PROMPT
     // =========================
 
-    copyBtn.addEventListener("click", async function () {
+    if (copyBtn) {
 
-        try {
+        copyBtn.addEventListener("click", async function () {
 
-            await navigator.clipboard.writeText(
-                promptResult.textContent
-            );
+            const promptResult = document.getElementById("promptResult");
 
-            copyBtn.textContent = "✅ Copied!";
+            if (!promptResult) return;
 
-            setTimeout(function () {
-                copyBtn.textContent = "📋 Copy";
-            }, 2000);
+            try {
 
-        }
+                await navigator.clipboard.writeText(
+                    promptResult.textContent
+                );
 
-        catch (error) {
+                copyBtn.textContent = "✅ Copied!";
 
-            alert("Unable to copy. Please copy the prompt manually.");
+                setTimeout(function () {
+                    copyBtn.textContent = "📋 Copy";
+                }, 1500);
 
-        }
+            } catch (error) {
 
-    });
+                alert("Unable to copy the prompt. Please copy it manually.");
+
+            }
+
+        });
+    }
 
 });
