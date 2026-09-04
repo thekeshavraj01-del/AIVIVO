@@ -26,6 +26,189 @@
     }
 
     // =========================
+    // QUALITY SCORE
+    // =========================
+
+    function calculateQualityScore(prompt, idea, aiType) {
+
+        let score = 40;
+
+        const promptLength = prompt.length;
+
+        // Length / detail
+        if (promptLength > 500) score += 10;
+        if (promptLength > 1000) score += 10;
+        if (promptLength > 1800) score += 5;
+
+        // Structure
+        const sections = [
+            "SUBJECT:",
+            "SETTING",
+            "CAMERA:",
+            "LIGHTING:",
+            "QUALITY:",
+            "OUTPUT:"
+        ];
+
+        sections.forEach(section => {
+            if (prompt.includes(section)) {
+                score += 3;
+            }
+        });
+
+        // Idea clarity
+        if (idea.length >= 15) score += 4;
+        if (idea.length >= 30) score += 3;
+
+        // AI-specific intelligence
+        if (aiType === "image") {
+            if (prompt.includes("COMPOSITION:")) score += 3;
+            if (prompt.includes("COLOR PALETTE:")) score += 2;
+            if (prompt.includes("MATERIALS & TEXTURES:")) score += 2;
+        }
+
+        if (aiType === "video") {
+            if (prompt.includes("MOTION:")) score += 3;
+            if (prompt.includes("PACING:")) score += 2;
+        }
+
+        if (aiType === "text") {
+            if (prompt.includes("AUDIENCE:")) score += 3;
+            if (prompt.includes("STRUCTURE:")) score += 2;
+        }
+
+        if (aiType === "code") {
+            if (prompt.includes("ERROR HANDLING:")) score += 3;
+            if (prompt.includes("TESTING:")) score += 2;
+        }
+
+        if (aiType === "study") {
+            if (prompt.includes("EXAM FOCUS:")) score += 3;
+            if (prompt.includes("PRACTICE:")) score += 2;
+        }
+
+        return Math.min(Math.round(score), 100);
+    }
+
+    // =========================
+    // QUALITY BREAKDOWN
+    // =========================
+
+    function createQualityBox(score) {
+
+        let clarity = Math.min(100, score + 2);
+        let detail = Math.min(100, score + 4);
+        let structure = Math.min(100, score + 1);
+        let aiReady = Math.min(100, score + 3);
+
+        return `
+            <div class="quality-box">
+
+                <div class="quality-title">
+                    <div>
+                        <span>✨ Prompt Quality</span>
+                        <strong>${score}/100</strong>
+                    </div>
+                </div>
+
+                <div class="quality-bars">
+
+                    <div class="quality-item">
+                        <div>
+                            <span>🎯 Clarity</span>
+                            <b>${clarity}%</b>
+                        </div>
+                        <div class="quality-bar">
+                            <span style="width:${clarity}%"></span>
+                        </div>
+                    </div>
+
+                    <div class="quality-item">
+                        <div>
+                            <span>🧠 Detail</span>
+                            <b>${detail}%</b>
+                        </div>
+                        <div class="quality-bar">
+                            <span style="width:${detail}%"></span>
+                        </div>
+                    </div>
+
+                    <div class="quality-item">
+                        <div>
+                            <span>🏗️ Structure</span>
+                            <b>${structure}%</b>
+                        </div>
+                        <div class="quality-bar">
+                            <span style="width:${structure}%"></span>
+                        </div>
+                    </div>
+
+                    <div class="quality-item">
+                        <div>
+                            <span>🤖 AI Readiness</span>
+                            <b>${aiReady}%</b>
+                        </div>
+                        <div class="quality-bar">
+                            <span style="width:${aiReady}%"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button id="improveBtn" class="improve-btn">
+                    💡 Improve Prompt ✨
+                </button>
+
+            </div>
+        `;
+    }
+
+    // =========================
+    // IMPROVE PROMPT
+    // =========================
+
+    function improvePrompt(originalPrompt, idea, aiType, style) {
+
+        let improved = originalPrompt;
+
+        const improvementBlock = `
+
+SMART PROMPT OPTIMIZATION:
+
+INTENT:
+Preserve the exact meaning and core intention of "${idea}".
+
+SPECIFICITY:
+Make every important element specific, intentional, and visually or logically meaningful. Replace vague instructions with concrete descriptions whenever possible.
+
+COHERENCE:
+Ensure that all subjects, environments, actions, objects, style choices, lighting, structure, and supporting details work together consistently.
+
+CONTEXT:
+Add useful contextual information that helps the AI understand the situation, purpose, audience, environment, or visual world.
+
+PRECISION:
+Use clear, direct instructions. Avoid ambiguity, unnecessary repetition, generic language, and conflicting requirements.
+
+AI OPTIMIZATION:
+Organize the instructions so an AI model can easily identify the main subject, desired result, constraints, quality requirements, and output format.
+
+STYLE CONSISTENCY:
+Maintain the requested ${style} style throughout the entire result.
+
+ORIGINAL IDEA PROTECTION:
+Do not replace, distort, or change the original idea. Improvements must strengthen the original concept rather than introduce unrelated concepts.
+
+FINAL OPTIMIZATION:
+Prioritize clarity, specificity, coherence, useful detail, strong hierarchy, realistic relationships between elements, and reliable AI interpretation.
+`;
+
+        improved += improvementBlock;
+
+        return improved;
+    }
+
+    // =========================
     // GENERATE PROMPT
     // =========================
 
@@ -667,7 +850,89 @@ Return one complete, ready-to-use AI study prompt.`;
             }
 
             if (resultBox) {
+
                 resultBox.style.display = "block";
+
+                // Remove old quality box
+                const oldQuality = document.getElementById("qualityBox");
+
+                if (oldQuality) {
+                    oldQuality.remove();
+                }
+
+                const score = calculateQualityScore(
+                    expandedIdea,
+                    idea,
+                    aiType
+                );
+
+                const qualityContainer =
+                    document.createElement("div");
+
+                qualityContainer.id = "qualityBox";
+
+                qualityContainer.innerHTML =
+                    createQualityBox(score);
+
+                resultBox.appendChild(qualityContainer);
+
+                // Improve button
+                const improveBtn =
+                    document.getElementById("improveBtn");
+
+                if (improveBtn) {
+
+                    improveBtn.addEventListener("click", function () {
+
+                        const currentPrompt =
+                            promptResult.textContent;
+
+                        const improvedPrompt =
+                            improvePrompt(
+                                currentPrompt,
+                                idea,
+                                aiType,
+                                style
+                            );
+
+                        promptResult.textContent =
+                            improvedPrompt;
+
+                        const newScore =
+                            Math.min(
+                                100,
+                                calculateQualityScore(
+                                    improvedPrompt,
+                                    idea,
+                                    aiType
+                                ) + 5
+                            );
+
+                        qualityContainer.innerHTML =
+                            createQualityBox(newScore);
+
+                        const newImproveBtn =
+                            document.getElementById("improveBtn");
+
+                        if (newImproveBtn) {
+                            newImproveBtn.textContent =
+                                "🚀 Prompt Improved!";
+                        }
+
+                        setTimeout(function () {
+
+                            const resetBtn =
+                                document.getElementById("improveBtn");
+
+                            if (resetBtn) {
+                                resetBtn.textContent =
+                                    "💡 Improve Prompt ✨";
+                            }
+
+                        }, 1800);
+
+                    });
+                }
 
                 resultBox.scrollIntoView({
                     behavior: "smooth",
@@ -686,7 +951,8 @@ Return one complete, ready-to-use AI study prompt.`;
 
         copyBtn.addEventListener("click", async function () {
 
-            const promptResult = document.getElementById("promptResult");
+            const promptResult =
+                document.getElementById("promptResult");
 
             if (!promptResult) return;
 
@@ -704,7 +970,9 @@ Return one complete, ready-to-use AI study prompt.`;
 
             } catch (error) {
 
-                alert("Unable to copy the prompt. Please copy it manually.");
+                alert(
+                    "Unable to copy the prompt. Please copy it manually."
+                );
 
             }
 
