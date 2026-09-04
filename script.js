@@ -1062,21 +1062,25 @@ function displayPromptHistory() {
                 ${escapeHistoryHTML(item.prompt)}
             </div>
 
-            <div class="history-actions">
+         <div class="history-actions">
 
-                <button onclick="copyHistoryPrompt(${item.id})">
-                    📋 Copy
-                </button>
+    <button onclick="copyHistoryPrompt(${item.id})">
+        📋 Copy
+    </button>
 
-                <button onclick="reuseHistoryPrompt(${item.id})">
-                    🔄 Reuse
-                </button>
+    <button onclick="reuseHistoryPrompt(${item.id})">
+        🔄 Reuse
+    </button>
 
-                <button onclick="deleteHistoryPrompt(${item.id})">
-                    🗑️ Delete
-                </button>
+    <button onclick="toggleFavoritePrompt(${item.id})">
+        ${item.favorite ? "⭐ Favorited" : "☆ Favorite"}
+    </button>
 
-            </div>
+    <button onclick="deleteHistoryPrompt(${item.id})">
+        🗑️ Delete
+    </button>
+
+</div>
 
         </div>
 
@@ -1362,4 +1366,27 @@ function displayPromptHistory() {
 
         }).join("");
 
+}
+/* =========================
+   FAVORITE PROMPTS
+========================= */
+
+function toggleFavoritePrompt(id) {
+
+    let history =
+        JSON.parse(localStorage.getItem("aivivoHistory")) || [];
+
+    const item =
+        history.find(prompt => prompt.id === id);
+
+    if (!item) return;
+
+    item.favorite = !item.favorite;
+
+    localStorage.setItem(
+        "aivivoHistory",
+        JSON.stringify(history)
+    );
+
+    displayPromptHistory();
 }
