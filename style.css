@@ -465,3 +465,77 @@ footer small {
     border-radius: 12px;
     color: var(--text);
    
+/* =========================
+   PROMPT QUALITY
+========================= */
+
+.quality-box {
+    margin-top: 18px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.quality-title {
+    margin-bottom: 18px;
+}
+
+.quality-title > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.quality-title span {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.quality-title strong {
+    font-size: 24px;
+    color: var(--accent);
+}
+
+.quality-item {
+    margin-bottom: 14px;
+}
+
+.quality-item > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.quality-bar {
+    height: 7px;
+    background: var(--surface-2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.quality-bar span {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 20px;
+}
+
+.improve-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.improve-btn:hover {
+    transform: translateY(-2px);
+}
