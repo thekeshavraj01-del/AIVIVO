@@ -539,3 +539,147 @@ footer small {
 .improve-btn:hover {
     transform: translateY(-2px);
 }
+/* =========================
+   PROMPT HISTORY
+========================= */
+
+.history-section {
+    padding: 80px 20px;
+}
+
+.history-card {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.history-header h3 {
+    font-size: 20px;
+}
+
+.clear-history-btn {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.clear-history-btn:hover {
+    transform: translateY(-1px);
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.empty-history {
+    text-align: center;
+    padding: 45px 20px;
+    color: var(--muted);
+}
+
+.empty-history div {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.empty-history h3 {
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.history-item {
+    padding: 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.history-type {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.history-date {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.history-prompt {
+    margin-bottom: 15px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-size: 14px;
+    max-height: 180px;
+    overflow: hidden;
+}
+
+.history-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.history-actions button {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.history-actions button:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+
+    .history-section {
+        padding: 60px 15px;
+    }
+
+    .history-card {
+        padding: 18px;
+    }
+
+    .history-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-actions button {
+        flex: 1;
+    }
+
+}
