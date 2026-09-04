@@ -848,7 +848,12 @@ Return one complete, ready-to-use AI study prompt.`;
             if (promptResult) {
                 promptResult.textContent = expandedIdea;
             }
-
+// Save generated prompt to history
+savePromptToHistory(
+    expandedIdea,
+    aiType,
+    style
+);
             if (resultBox) {
 
                 resultBox.style.display = "block";
