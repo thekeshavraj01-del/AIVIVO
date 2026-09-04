@@ -133,12 +133,33 @@
     <div class="history-card">
 
         <div class="history-header">
-            <h3>Recent Prompts</h3>
+    <h3>Recent Prompts</h3>
 
-            <button id="clearHistoryBtn" class="clear-history-btn">
-                🗑️ Clear All
-            </button>
-        </div>
+    <button id="clearHistoryBtn" class="clear-history-btn">
+        🗑️ Clear All
+    </button>
+</div>
+
+<div class="history-filters">
+
+    <input
+        type="text"
+        id="historySearch"
+        placeholder="🔎 Search your prompts..."
+    >
+
+    <select id="historyFilter">
+        <option value="all">All AI Types</option>
+        <option value="image">🖼️ Image</option>
+        <option value="video">🎬 Video</option>
+        <option value="text">✍️ Text</option>
+        <option value="code">💻 Code</option>
+        <option value="study">📚 Study</option>
+    </select>
+
+</div>
+
+            <button 
 
         <div id="historyList" class="history-list">
 
