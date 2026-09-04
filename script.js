@@ -1220,3 +1220,146 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+/* =========================
+   HISTORY SEARCH & FILTER
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("historySearch");
+
+    const filterInput =
+        document.getElementById("historyFilter");
+
+    if (searchInput) {
+        searchInput.addEventListener(
+            "input",
+            displayPromptHistory
+        );
+    }
+
+    if (filterInput) {
+        filterInput.addEventListener(
+            "change",
+            displayPromptHistory
+        );
+    }
+
+});
+
+
+/* Updated History Display */
+
+function displayPromptHistory() {
+
+    const historyList =
+        document.getElementById("historyList");
+
+    if (!historyList) return;
+
+    const history =
+        JSON.parse(
+            localStorage.getItem("aivivoHistory")
+        ) || [];
+
+    const searchInput =
+        document.getElementById("historySearch");
+
+    const filterInput =
+        document.getElementById("historyFilter");
+
+    const searchTerm =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : "";
+
+    const filterType =
+        filterInput
+            ? filterInput.value
+            : "all";
+
+    const filteredHistory =
+        history.filter(function (item) {
+
+            const matchesSearch =
+                item.prompt
+                    .toLowerCase()
+                    .includes(searchTerm);
+
+            const matchesFilter =
+                filterType === "all" ||
+                item.aiType === filterType;
+
+            return matchesSearch && matchesFilter;
+
+        });
+
+
+    if (filteredHistory.length === 0) {
+
+        historyList.innerHTML = `
+            <div class="empty-history">
+
+                <div>🔎</div>
+
+                <h3>No matching prompts</h3>
+
+                <p>
+                    Try another search or AI type.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    historyList.innerHTML =
+        filteredHistory.map(function (item) {
+
+            return `
+
+                <div class="history-item">
+
+                    <div class="history-item-header">
+
+                        <span class="history-type">
+                            ${getHistoryIcon(item.aiType)}
+                            ${item.aiType.toUpperCase()}
+                        </span>
+
+                        <span class="history-date">
+                            ${item.date}
+                        </span>
+
+                    </div>
+
+                    <div class="history-prompt">
+                        ${escapeHistoryHTML(item.prompt)}
+                    </div>
+
+                    <div class="history-actions">
+
+                        <button onclick="copyHistoryPrompt(${item.id})">
+                            📋 Copy
+                        </button>
+
+                        <button onclick="reuseHistoryPrompt(${item.id})">
+                            🔄 Reuse
+                        </button>
+
+                        <button onclick="deleteHistoryPrompt(${item.id})">
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
