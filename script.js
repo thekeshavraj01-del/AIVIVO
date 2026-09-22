@@ -294,11 +294,11 @@ Return one polished, complete, professional, ready-to-use AI prompt.`;
 
                 // CYBERPUNK
                 if (hasAny(ideaLower, [
-                    "cyberpunk",
-                    "neon",
-                    "futuristic city",
-                    "future city"
-                ])) {
+                "cyberpunk",
+                "neon cyberpunk",
+                "cyberpunk city",
+                "cyberpunk future"
+                 ])) {
 
                     subject =
                         "A vast futuristic megacity in 2050 dominated by towering glass-and-metal skyscrapers, enormous holographic billboards, elevated transportation systems, autonomous flying vehicles, and dense pedestrian districts.";
