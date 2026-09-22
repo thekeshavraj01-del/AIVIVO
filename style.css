@@ -1981,3 +1981,11 @@ body.dark .generator-workspace {
     }
 
 }
+/* ANCHOR SCROLL FIX */
+#home,
+#generator,
+#history,
+#tools,
+#about {
+    scroll-margin-top: 90px;
+}
