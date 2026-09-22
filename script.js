@@ -282,7 +282,16 @@ Return one polished, complete, professional, ready-to-use AI prompt.`;
 
             
              if (aiType === "image") {
-
+                             let subject = "";
+                let environment = "";
+                let technology = "";
+                let atmosphere = "";
+                let camera = "";
+                let lighting = "";
+                let colors = "";
+                let materials = "";
+                let extraDetails = "";
+                let styleDirection = "";
     // ================================
     // SMART CONTEXT INTELLIGENCE 2.0
     // ================================
@@ -439,7 +448,8 @@ Return one complete, polished, ready-to-use AI image generation prompt.`;
                 let colors = "";
                 let materials = "";
                 let extraDetails = "";
-
+   else {
+             
                 // CYBERPUNK
                 if (hasAny(ideaLower, [
                 "cyberpunk",
