@@ -1937,3 +1937,47 @@ body.dark .generator-workspace {
         font-size: 9px;
     }
 }
+/* =========================
+   TABLET NAVIGATION FIX
+========================= */
+
+@media (min-width: 701px) {
+
+    .main-nav {
+        display: flex !important;
+    }
+
+    .main-nav .nav-link {
+        display: inline-flex !important;
+    }
+
+}
+/* =========================
+   TABLET HERO BALANCE
+========================= */
+
+@media (min-width: 701px) and (max-width: 1100px) {
+
+    .premium-hero {
+        min-height: auto;
+        padding-top: 70px;
+        padding-bottom: 75px;
+    }
+
+    .hero-layout {
+        gap: 45px;
+    }
+
+    .premium-hero h1 {
+        font-size: clamp(46px, 6vw, 64px);
+    }
+
+    .premium-hero .hero-text {
+        font-size: 16px;
+    }
+
+    .preview-card {
+        max-width: 470px;
+    }
+
+}
