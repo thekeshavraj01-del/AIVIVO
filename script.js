@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================================
-    // AIVIVO — SMART PROMPT ENGINE 3.0
+    // AIVIVO — DYNAMIC CONTEXT ENGINE 3.0
     // =========================================================
 
     const themeToggle = document.getElementById("themeToggle");
@@ -17,19 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function loadTheme() {
 
-        const savedTheme =
-            localStorage.getItem("aivivoTheme");
+        const savedTheme = localStorage.getItem("aivivoTheme");
 
         if (savedTheme === "dark") {
-
             document.body.classList.add("dark");
 
             if (themeToggle) {
                 themeToggle.textContent = "☀️";
             }
-
         } else {
-
             if (themeToggle) {
                 themeToggle.textContent = "🌙";
             }
@@ -55,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "aivivoTheme",
                 isDark ? "dark" : "light"
             );
-
         });
     }
 
@@ -98,7 +93,92 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // SMART CONTEXT DETECTION
+    // EXTRACT YEAR
+    // =========================================================
+
+    function extractYear(text) {
+
+        const match =
+            text.match(/\b(19|20|21)\d{2}\b/);
+
+        return match ? match[0] : "";
+    }
+
+
+    // =========================================================
+    // LOCATION DETECTION
+    // =========================================================
+
+    function detectLocation(text) {
+
+        const locations = {
+
+            india: "India",
+
+            mumbai: "Mumbai, India",
+
+            delhi: "Delhi, India",
+
+            bengaluru: "Bengaluru, India",
+
+            bangalore: "Bengaluru, India",
+
+            kolkata: "Kolkata, India",
+
+            hyderabad: "Hyderabad, India",
+
+            chennai: "Chennai, India",
+
+            pune: "Pune, India",
+
+            patna: "Patna, India",
+
+            gaya: "Gaya, India",
+
+            jaipur: "Jaipur, India",
+
+            varanasi: "Varanasi, India",
+
+            tokyo: "Tokyo, Japan",
+
+            japan: "Japan",
+
+            dubai: "Dubai, UAE",
+
+            london: "London, United Kingdom",
+
+            paris: "Paris, France",
+
+            newyork: "New York City, USA",
+
+            "new york": "New York City, USA",
+
+            usa: "United States",
+
+            america: "United States",
+
+            china: "China",
+
+            korea: "South Korea",
+
+            australia: "Australia"
+
+        };
+
+
+        for (const key in locations) {
+
+            if (text.includes(key)) {
+                return locations[key];
+            }
+        }
+
+        return "";
+    }
+
+
+    // =========================================================
+    // DYNAMIC CONTEXT DETECTION 3.0
     // =========================================================
 
     function detectContext(idea) {
@@ -107,16 +187,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return {
 
+            originalIdea: idea,
+
+            year: extractYear(text),
+
+            location: detectLocation(text),
+
             futuristic: hasAny(text, [
                 "futuristic",
                 "future",
-                "2050",
-                "2070",
-                "2100",
                 "sci-fi",
                 "advanced",
                 "next generation",
-                "tomorrow"
+                "tomorrow",
+                "2050",
+                "2070",
+                "2100"
             ]),
 
             city: hasAny(text, [
@@ -127,26 +213,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 "downtown",
                 "skyscraper",
                 "skyline",
-                "street",
-                "town"
+                "cityscape"
             ]),
 
-            india: hasAny(text, [
-                "india",
-                "indian",
-                "delhi",
-                "mumbai",
-                "bombay",
-                "bangalore",
-                "bengaluru",
-                "kolkata",
-                "hyderabad",
-                "chennai",
-                "pune",
-                "patna",
-                "gaya",
-                "jaipur",
-                "varanasi"
+            village: hasAny(text, [
+                "village",
+                "rural",
+                "countryside",
+                "farmland",
+                "farm",
+                "small town"
             ]),
 
             night: hasAny(text, [
@@ -154,49 +230,81 @@ document.addEventListener("DOMContentLoaded", function () {
                 "nighttime",
                 "at night",
                 "midnight",
-                "evening",
                 "after dark"
             ]),
 
             sunrise: hasAny(text, [
                 "sunrise",
                 "dawn",
-                "early morning",
-                "morning"
+                "early morning"
+            ]),
+
+            morning: hasAny(text, [
+                "morning",
+                "morning time"
             ]),
 
             sunset: hasAny(text, [
                 "sunset",
                 "golden hour",
-                "dusk",
+                "dusk"
+            ]),
+
+            evening: hasAny(text, [
                 "evening"
             ]),
 
             rain: hasAny(text, [
                 "rain",
                 "rainy",
+                "raining",
                 "monsoon",
                 "drizzle",
-                "storm"
+                "downpour"
             ]),
 
-            winter: hasAny(text, [
-                "winter",
+            storm: hasAny(text, [
+                "storm",
+                "thunderstorm",
+                "lightning",
+                "thunder"
+            ]),
+
+            fog: hasAny(text, [
+                "fog",
+                "foggy",
+                "mist",
+                "misty"
+            ]),
+
+            snow: hasAny(text, [
                 "snow",
-                "cold",
-                "frost"
+                "snowy",
+                "blizzard",
+                "winter"
             ]),
 
             summer: hasAny(text, [
                 "summer",
-                "hot",
-                "heat",
-                "sunny"
+                "heatwave",
+                "hot weather"
+            ]),
+
+            sunny: hasAny(text, [
+                "sunny",
+                "sunlight",
+                "bright day"
             ]),
 
             cyberpunk: hasAny(text, [
                 "cyberpunk",
-                "neon cyberpunk"
+                "cyber punk"
+            ]),
+
+            anime: hasAny(text, [
+                "anime",
+                "manga",
+                "japanese animation"
             ]),
 
             portrait: hasAny(text, [
@@ -218,7 +326,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 "valley",
                 "lake",
                 "ocean",
-                "beach"
+                "beach",
+                "waterfall",
+                "desert"
             ]),
 
             architecture: hasAny(text, [
@@ -227,19 +337,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 "house",
                 "tower",
                 "skyscraper",
-                "bridge"
+                "bridge",
+                "temple",
+                "palace",
+                "mosque",
+                "church"
+            ]),
+
+            car: hasAny(text, [
+                "car",
+                "sports car",
+                "vehicle",
+                "automobile",
+                "bike",
+                "motorcycle"
             ]),
 
             product: hasAny(text, [
                 "product",
-                "car",
                 "phone",
+                "smartphone",
                 "laptop",
                 "watch",
                 "shoes",
                 "bottle",
-                "robot",
-                "vehicle"
+                "camera",
+                "headphones"
             ]),
 
             space: hasAny(text, [
@@ -249,7 +372,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "astronaut",
                 "spaceship",
                 "cosmos",
-                "universe"
+                "universe",
+                "mars"
             ]),
 
             fantasy: hasAny(text, [
@@ -258,7 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "wizard",
                 "dragon",
                 "castle",
-                "mythical"
+                "mythical",
+                "fairy"
             ]),
 
             horror: hasAny(text, [
@@ -266,7 +391,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 "haunted",
                 "ghost",
                 "scary",
-                "abandoned"
+                "abandoned",
+                "creepy"
+            ]),
+
+            historical: hasAny(text, [
+                "ancient",
+                "historical",
+                "medieval",
+                "old",
+                "1980",
+                "1990",
+                "traditional"
             ])
         };
     }
@@ -281,186 +417,356 @@ document.addEventListener("DOMContentLoaded", function () {
         if (style === "cinematic") {
 
             return `
-Premium cinematic visual language, dramatic composition,
-film-quality production design, sophisticated color grading,
-realistic lighting, atmospheric depth, strong visual hierarchy,
-immersive storytelling, and polished professional presentation.`;
+Premium cinematic visual language.
+Film-quality production design.
+Strong visual hierarchy.
+Sophisticated color grading.
+Realistic lighting.
+Atmospheric depth.
+Immersive environmental storytelling.
+Professional composition.`;
 
         }
 
         if (style === "creative") {
 
             return `
-Highly creative visual interpretation, distinctive composition,
-imaginative details, expressive atmosphere, unique visual identity,
-strong artistic direction, and memorable storytelling.`;
+Distinctive creative visual interpretation.
+Original composition.
+Imaginative but coherent details.
+Strong artistic identity.
+Expressive atmosphere.
+Memorable storytelling.`;
 
         }
 
         if (style === "professional") {
 
             return `
-Clean professional visual direction, precise composition,
-controlled lighting, realistic details, polished presentation,
-strong consistency, and commercial-quality execution.`;
+Clean professional visual direction.
+Precise composition.
+Controlled lighting.
+Realistic details.
+Polished presentation.
+Commercial-quality execution.
+Consistent visual language.`;
 
         }
 
         return `
-Clean and balanced visual direction, clear subject focus,
-natural composition, realistic details, controlled lighting,
-and only relevant supporting elements.`;
+Balanced visual direction.
+Clear subject focus.
+Natural composition.
+Relevant details.
+Realistic lighting.
+Controlled atmosphere.`;
     }
 
 
     // =========================================================
-    // IMAGE PROMPT ENGINE
+    // TIME CONTEXT
+    // =========================================================
+
+    function getTimeContext(context) {
+
+        if (context.sunrise) {
+
+            return {
+                atmosphere:
+                    "Fresh early-morning atmosphere with soft haze, gentle humidity, distant atmospheric perspective, awakening streets, and the first signs of daily activity.",
+
+                lighting:
+                    "Natural sunrise illumination with warm golden highlights, a soft glowing horizon, cool remaining shadows, realistic reflections, and gentle atmospheric rays.",
+
+                colors:
+                    "Warm gold, soft orange, pale blue, subtle pink, cool shadows, metallic neutrals, and restrained cinematic tones."
+            };
+        }
+
+
+        if (context.sunset) {
+
+            return {
+                atmosphere:
+                    "Cinematic sunset atmosphere with warm sky gradients, atmospheric haze, long shadows, glowing surfaces, and a natural transition from daylight into evening.",
+
+                lighting:
+                    "Warm golden-hour sunlight mixed with soft directional shadows, glowing highlights, realistic reflections, and gradually emerging artificial illumination.",
+
+                colors:
+                    "Golden amber, warm orange, soft pink, deep blue shadows, metallic neutrals, and cinematic contrast."
+            };
+        }
+
+
+        if (context.night) {
+
+            return {
+                atmosphere:
+                    "Cinematic nighttime atmosphere with deep environmental contrast, realistic artificial illumination, subtle haze, atmospheric depth, and believable nighttime activity.",
+
+                lighting:
+                    "Controlled artificial lighting, practical lights, architectural illumination, realistic reflections, soft rim lighting, and physically believable shadows.",
+
+                colors:
+                    "Deep blue, charcoal, cool cyan, controlled violet, warm amber, metallic gray, and restrained highlights."
+            };
+        }
+
+
+        if (context.morning) {
+
+            return {
+                atmosphere:
+                    "Natural morning atmosphere with fresh air, subtle haze, realistic environmental depth, soft shadows, and active early-day surroundings.",
+
+                lighting:
+                    "Soft natural morning light with gentle highlights, controlled shadows, realistic reflections, and subtle atmospheric rays.",
+
+                colors:
+                    "Soft blue, warm white, gentle gold, natural greens, metallic neutrals, and restrained cinematic tones."
+            };
+        }
+
+
+        return {
+
+            atmosphere:
+                "Natural environmental atmosphere with realistic weather conditions, atmospheric depth, subtle haze, believable activity, and physically coherent surroundings.",
+
+            lighting:
+                "Natural directional illumination with realistic highlights, controlled shadows, environmental reflections, and physically believable light interaction.",
+
+            colors:
+                "A balanced cinematic palette chosen according to the subject, environment, location, weather, and selected visual style."
+        };
+    }
+
+
+    // =========================================================
+    // WEATHER CONTEXT
+    // =========================================================
+
+    function getWeatherContext(context) {
+
+        if (context.rain || context.storm) {
+
+            let atmosphere =
+                "Realistic rainfall interacting with the environment, wet surfaces, water droplets, atmospheric moisture, subtle rain mist, puddles, reflections, and believable weather conditions.";
+
+            let lighting =
+                "Diffused lighting through rain clouds, soft reflections across wet surfaces, atmospheric highlights, realistic specular reflections, and physically believable light scattering.";
+
+            if (context.storm) {
+
+                atmosphere +=
+                    " Dramatic storm clouds, distant lightning, stronger wind, moving rain, and turbulent atmospheric conditions.";
+
+                lighting +=
+                    " Occasional lightning illumination balanced with natural storm lighting.";
+            }
+
+            return {
+                atmosphere,
+                lighting,
+                colors:
+                    "Deep blue-gray, wet charcoal, muted green, silver reflections, controlled highlights, and subtle warm practical lighting."
+            };
+        }
+
+
+        if (context.snow) {
+
+            return {
+
+                atmosphere:
+                    "Cold winter environment with falling snow, subtle frozen moisture, visible breath where appropriate, snow accumulation, and atmospheric depth.",
+
+                lighting:
+                    "Soft diffused winter lighting with cool reflections, subtle highlights, realistic snow illumination, and controlled shadows.",
+
+                colors:
+                    "Cool white, pale blue, silver, soft gray, muted natural tones, and restrained warm accents."
+            };
+        }
+
+
+        if (context.fog) {
+
+            return {
+
+                atmosphere:
+                    "Dense atmospheric fog and mist creating layered depth, softened distant forms, moisture in the air, and reduced visibility.",
+
+                lighting:
+                    "Soft diffused illumination with visible light scattering through the fog and subtle atmospheric glow.",
+
+                colors:
+                    "Muted blue-gray, silver, charcoal, soft white, and restrained environmental colors."
+            };
+        }
+
+
+        if (context.summer || context.sunny) {
+
+            return {
+
+                atmosphere:
+                    "Clear warm-weather atmosphere with visible sunlight, natural heat, subtle atmospheric shimmer, realistic environmental activity, and strong visibility.",
+
+                lighting:
+                    "Bright natural sunlight with defined highlights, realistic shadows, environmental reflections, and physically believable illumination.",
+
+                colors:
+                    "Warm natural tones, clear blue, green, earth tones, bright highlights, and balanced cinematic contrast."
+            };
+        }
+
+
+        return {
+
+            atmosphere: "",
+
+            lighting: "",
+
+            colors: ""
+        };
+    }
+
+
+    // =========================================================
+    // IMAGE ENGINE 3.0
     // =========================================================
 
     function buildImagePrompt(idea, style) {
 
         const context = detectContext(idea);
 
+        const time = getTimeContext(context);
+
+        const weather = getWeatherContext(context);
+
+        const location =
+            context.location ||
+            "the location naturally implied by the original idea";
+
+        const era =
+            context.year
+                ? `the year ${context.year}`
+                : "the appropriate time period implied by the original idea";
+
+
         let subject = "";
         let environment = "";
         let technology = "";
         let visualStory = "";
-        let atmosphere = "";
+        let people = "";
         let composition = "";
         let camera = "";
-        let lighting = "";
-        let colors = "";
         let materials = "";
-        let people = "";
         let negative = "";
-
-
-        // =====================================================
-        // FUTURISTIC INDIAN CITY
-        // =====================================================
-
-        if (
-            context.futuristic &&
-            context.city &&
-            context.india
-        ) {
-
-            subject =
-                "A massive futuristic Indian megacity shaped by advanced urban development, sophisticated glass-and-metal architecture, dense metropolitan districts, elevated transportation systems, autonomous mobility, intelligent infrastructure, and a large population living naturally within the environment.";
-
-            environment =
-                "A highly developed Indian metropolitan environment with interconnected skyscrapers, elevated transit corridors, pedestrian areas, landscaped public spaces, advanced roads, commercial districts, distant towers, atmospheric depth, and realistic urban density.";
-
-            technology =
-                "Autonomous electric vehicles, intelligent traffic systems, elevated metro systems, delivery drones, smart roads, AI-assisted public services, advanced communication networks, renewable-energy infrastructure, transparent digital displays, and futuristic transportation.";
-
-            visualStory =
-                "Show the city functioning as a real place. People naturally interact with streets, transportation, shops, buildings, public spaces, businesses, and technology rather than appearing randomly placed.";
-
-            people =
-                "Include diverse Indian pedestrians, commuters, workers, families, street activity, realistic body language, modern clothing, businesses, transportation users, and subtle signs of everyday urban life.";
-
-            if (context.night) {
-
-                atmosphere =
-                    "Cinematic nighttime atmosphere with humid air, subtle haze, realistic fog, illuminated windows, practical street lighting, glowing transportation systems, reflections on wet surfaces, and vibrant everyday urban activity.";
-
-                lighting =
-                    "Sophisticated cyan and restrained violet futuristic lighting balanced with warm amber building interiors, realistic street lights, commercial lighting, illuminated transportation systems, volumetric light, and reflections.";
-
-            } else if (context.sunrise) {
-
-                atmosphere =
-                    "Fresh early-morning atmosphere with soft humidity, gentle haze, distant city mist, awakening streets, subtle atmospheric perspective, and the first signs of daily urban activity.";
-
-                lighting =
-                    "Soft sunrise illumination with warm golden highlights, cool remaining shadows, realistic glass reflections, gentle atmospheric rays, and natural urban lighting.";
-
-            } else if (context.sunset) {
-
-                atmosphere =
-                    "Cinematic sunset atmosphere with warm sky gradients, atmospheric haze, long shadows, glowing windows, active streets, and a transition from daylight into the city's evening energy.";
-
-                lighting =
-                    "Warm golden-hour sunlight mixed with emerging artificial city lights, realistic reflections, soft shadows, and atmospheric illumination.";
-
-            } else {
-
-                atmosphere =
-                    "Believable futuristic daytime atmosphere with clear urban visibility, subtle haze, realistic humidity, natural environmental depth, and active metropolitan life.";
-
-                lighting =
-                    "Natural daylight combined with realistic architectural reflections, soft shadows, controlled highlights, and subtle artificial lighting where appropriate.";
-            }
-
-            if (context.rain) {
-
-                atmosphere +=
-                    " Active monsoon rainfall, wet roads, water reflections, subtle rain mist, umbrellas, drainage systems, and realistic rainfall interaction with the city.";
-
-                lighting +=
-                    " Rain reflections and diffused highlights across wet surfaces.";
-            }
-
-            colors =
-                "Deep blue, metallic silver, charcoal, controlled cyan, subtle violet, warm amber, white, and restrained Indian-inspired accents.";
-
-            materials =
-                "Reflective architectural glass, brushed steel, polished concrete, dark stone, advanced road surfaces, transparent displays, realistic vehicle materials, detailed building facades, vegetation, and subtle surface imperfections.";
-
-            composition =
-                "Strong foreground, midground, and background separation with clear visual hierarchy, leading lines, realistic architectural scale, layered depth, balanced framing, natural pedestrian placement, and believable transportation flow.";
-
-            camera =
-                "Wide cinematic establishing shot using a 28mm lens, realistic perspective, strong foreground-to-background depth, controlled vertical architecture, immersive environmental storytelling, and professional cinematic framing.";
-
-            negative =
-                "Avoid generic futuristic cities, excessive neon, random architecture, impossible structures, cultural stereotypes, unrealistic vehicles, distorted people, inconsistent perspective, floating objects without purpose, excessive clutter, blurry textures, duplicated elements, and unrelated details.";
-
-        }
 
 
         // =====================================================
         // CYBERPUNK
         // =====================================================
 
-        else if (context.cyberpunk) {
+        if (context.cyberpunk) {
 
             subject =
-                "A dense futuristic cyberpunk environment filled with towering architecture, advanced transportation, illuminated advertisements, digital interfaces, pedestrians, and layered urban infrastructure.";
+                `A visually dominant cyberpunk environment based directly on "${idea}", with distinctive architecture, advanced technology, believable urban infrastructure, and a strong visual identity.`;
 
             environment =
-                "A rain-soaked metropolitan district at night with reflective streets, elevated walkways, dense buildings, glowing storefronts, steam vents, cables, and distant towers disappearing into atmospheric haze.";
+                `A dense futuristic urban environment in ${location}, with layered architecture, narrow streets, elevated structures, digital signage, atmospheric depth, detailed storefronts, transportation systems, and realistic spatial relationships.`;
 
             technology =
-                "Autonomous vehicles, drones, holographic advertisements, robotic systems, transparent interfaces, intelligent traffic networks, advanced electric transportation, and high-tech urban infrastructure.";
+                "Holographic interfaces, autonomous vehicles, drones, robotic systems, advanced displays, smart infrastructure, cables, digital advertisements, and believable futuristic technology.";
 
             visualStory =
-                "Show pedestrians, vehicles, businesses, technology, and architecture interacting naturally to create a believable functioning city.";
-
-            atmosphere =
-                "Heavy cinematic rain, volumetric fog, drifting steam, floating rain particles, glowing reflections, humid night air, and atmospheric haze.";
-
-            composition =
-                "Low-angle cinematic composition with strong foreground reflections, layered architecture, leading lines, deep perspective, and clear visual hierarchy.";
-
-            camera =
-                "28mm wide-angle cinematic street-level camera with dramatic perspective, strong depth, realistic scale, and controlled framing.";
-
-            lighting =
-                "Controlled cyan, magenta, violet, and warm amber lighting with realistic reflections, deep shadows, and volumetric beams.";
-
-            colors =
-                "Electric cyan, neon magenta, violet, deep blue, charcoal black, metallic gray, and restrained warm amber.";
-
-            materials =
-                "Rain-covered asphalt, reflective glass, brushed metal, dark concrete, illuminated plastic, holographic surfaces, wet cables, and detailed futuristic vehicle panels.";
+                "Show people, vehicles, businesses, technology, architecture, and infrastructure interacting naturally so the environment feels like a functioning society rather than a collection of random futuristic objects.";
 
             people =
-                "Pedestrians wearing believable futuristic clothing with natural movement and realistic interactions with shops, transportation, and technology.";
+                "Believable pedestrians with natural movement, realistic clothing, diverse appearances, commuters, workers, vendors, and people naturally interacting with the surrounding city.";
+
+            composition =
+                "Strong foreground, midground, and background separation, clear focal hierarchy, leading lines, controlled visual density, reflective foreground elements, and cinematic environmental storytelling.";
+
+            camera =
+                "Wide cinematic street-level camera using approximately 28mm lens characteristics, realistic perspective, immersive depth, controlled distortion, and strong environmental framing.";
+
+            materials =
+                "Wet asphalt, reflective glass, brushed metal, dark concrete, illuminated panels, cables, digital surfaces, realistic vehicle materials, rain droplets, and subtle surface imperfections.";
 
             negative =
-                "Avoid excessive neon, random holograms, impossible architecture, empty streets, distorted people, unrealistic vehicles, excessive clutter, flat lighting, and generic sci-fi imagery.";
+                "Avoid random neon, excessive holograms, generic sci-fi objects, impossible architecture, distorted anatomy, inconsistent perspective, empty streets, excessive clutter, and unrelated futuristic elements.";
+        }
+
+
+        // =====================================================
+        // FUTURISTIC CITY / VILLAGE
+        // =====================================================
+
+        else if (context.futuristic && context.city) {
+
+            subject =
+                `A believable futuristic city in ${location}, set in ${era}, with advanced architecture, intelligent infrastructure, sophisticated transportation, autonomous mobility, and people naturally living within the environment.`;
+
+            environment =
+                `A highly developed ${location} metropolitan environment with interconnected buildings, realistic streets, transportation corridors, public spaces, commercial areas, greenery, distant structures, atmospheric depth, and believable urban density.`;
+
+            technology =
+                "Autonomous electric vehicles, intelligent transportation systems, smart roads, advanced public transit, delivery drones, AI-assisted infrastructure, renewable energy systems, advanced communication networks, and digital public services.";
+
+            visualStory =
+                "Show the city functioning as a real place. People naturally interact with transportation, buildings, shops, public spaces, technology, businesses, and infrastructure.";
+
+            people =
+                context.india
+                    ? "Diverse Indian pedestrians, commuters, workers, families, businesses, public transportation users, and natural everyday activity. Use believable Indian urban details without relying on cultural stereotypes."
+                    : "Diverse pedestrians, commuters, workers, businesses, public transportation users, and natural everyday activity appropriate to the specified location.";
+
+            composition =
+                "Strong foreground, midground, and background separation with clear visual hierarchy, leading lines, realistic architectural scale, layered depth, balanced framing, natural pedestrian placement, and believable transportation flow.";
+
+            camera =
+                "Wide cinematic establishing shot using approximately 28mm lens characteristics, realistic perspective, controlled vertical architecture, strong foreground-to-background depth, and immersive environmental storytelling.";
+
+            materials =
+                "Reflective architectural glass, brushed steel, polished concrete, advanced road surfaces, realistic vehicle materials, detailed building facades, vegetation, transparent displays, and subtle surface imperfections.";
+
+            negative =
+                "Avoid generic futuristic cities, random architecture, impossible structures, excessive neon, cultural stereotypes, unrealistic vehicles, distorted people, inconsistent perspective, floating objects without purpose, excessive clutter, and unrelated details.";
+        }
+
+
+        else if (context.futuristic && context.village) {
+
+            subject =
+                `A believable futuristic rural environment based on "${idea}", combining advanced technology with the original village or countryside setting while preserving its natural identity.`;
+
+            environment =
+                `A future ${location} countryside with homes, farmland, roads, vegetation, water systems, community spaces, renewable infrastructure, and realistic rural architecture adapted to advanced technology.`;
+
+            technology =
+                "Autonomous agricultural equipment, smart irrigation, renewable energy, agricultural drones, intelligent transportation, solar infrastructure, advanced communication systems, and practical rural technology.";
+
+            visualStory =
+                "Show technology improving everyday rural life without replacing the village's natural character. People should interact naturally with farms, homes, roads, animals, vehicles, and smart infrastructure.";
+
+            people =
+                "Local residents, farmers, workers, families, and children engaged in believable everyday activities with natural body language and appropriate clothing.";
+
+            composition =
+                "Layered rural composition with strong foreground vegetation, clear subject placement, expansive midground activity, distant landscape depth, realistic scale, and natural leading lines.";
+
+            camera =
+                "Wide cinematic environmental shot using 28mm to 35mm lens characteristics, realistic perspective, natural depth, and immersive environmental storytelling.";
+
+            materials =
+                "Natural soil, vegetation, wood, stone, concrete, metal, solar panels, agricultural equipment, realistic roads, water surfaces, and subtle technological materials.";
+
+            negative =
+                "Avoid turning the village into a futuristic megacity, excessive skyscrapers, random neon, unrealistic technology, cultural stereotypes, impossible structures, and unrelated urban elements.";
         }
 
 
@@ -471,37 +777,28 @@ and only relevant supporting elements.`;
         else if (context.portrait) {
 
             subject =
-                `A clearly defined human character based on "${idea}", with realistic facial proportions, expressive eyes, natural skin texture, detailed hair, carefully designed clothing, and a distinct visual identity.`;
+                `A clearly defined human character based on "${idea}", with realistic facial proportions, expressive eyes, natural skin texture, detailed hair, authentic clothing, and a distinct visual identity.`;
 
             environment =
-                "A visually appropriate environment that supports the character with subtle depth, environmental storytelling, and a background that complements rather than distracts from the subject.";
+                `A visually appropriate environment in ${location} that supports the character without distracting from the subject.`;
 
             technology =
                 "Include objects, accessories, clothing details, or technology only when they naturally support the original concept.";
 
             visualStory =
-                "Create a believable interaction between the character and the surrounding environment with natural posture, expression, body language, and contextual details.";
+                "Create believable interaction between the character and environment through natural posture, facial expression, body language, clothing, and contextual details.";
 
-            atmosphere =
-                "Controlled atmospheric depth, subtle environmental particles, realistic air, gentle background separation, and a mood appropriate to the original concept.";
+            people =
+                "Natural facial expression, realistic anatomy, believable posture, authentic clothing folds, and realistic human proportions.";
 
             composition =
-                "Strong subject hierarchy, natural framing, balanced negative space, realistic proportions, and clear separation between foreground, subject, and background.";
+                "Strong subject hierarchy, balanced negative space, natural framing, realistic proportions, and clear separation between subject and background.";
 
             camera =
-                "Professional portrait photography using 50mm or 85mm lens characteristics, realistic perspective, controlled depth of field, sharp eyes, and natural subject separation.";
-
-            lighting =
-                "Soft directional key light, subtle fill light, realistic rim lighting, natural facial shadows, controlled highlights, and cinematic skin illumination.";
-
-            colors =
-                "A sophisticated cinematic color palette chosen to complement the subject, clothing, environment, and requested style.";
+                "Professional portrait photography using 50mm or 85mm lens characteristics, realistic perspective, controlled depth of field, sharp facial detail, and natural subject separation.";
 
             materials =
                 "Detailed skin texture, individual hair strands, realistic fabric, leather, metal accessories, natural surface imperfections, and physically believable materials.";
-
-            people =
-                "Natural facial expression, believable posture, realistic body proportions, authentic clothing folds, and subtle interaction with the surrounding environment.";
 
             negative =
                 "Avoid distorted anatomy, unnatural skin, plastic-looking faces, extra fingers, duplicated people, unrealistic eyes, excessive smoothing, flat lighting, and distracting backgrounds.";
@@ -515,19 +812,19 @@ and only relevant supporting elements.`;
         else if (context.landscape) {
 
             subject =
-                `A dramatic natural landscape based on "${idea}", with clearly defined terrain, vegetation, geological formations, environmental features, and a strong visual focal point.`;
+                `A dramatic natural landscape based directly on "${idea}", with clearly defined terrain, vegetation, geological formations, water, environmental features, and a strong visual focal point.`;
 
             environment =
-                "An expansive natural environment with layered foreground, midground, and background elements, atmospheric perspective, realistic terrain variation, distant scenery, and believable environmental conditions.";
+                `An expansive natural environment in ${location}, with layered foreground, midground, and background elements, realistic terrain variation, atmospheric perspective, and believable environmental conditions.`;
 
             technology =
                 "Avoid unnecessary technology unless it naturally belongs to the original concept.";
 
             visualStory =
-                "Create a natural relationship between terrain, weather, vegetation, water, wildlife, and any human presence.";
+                "Create a natural relationship between terrain, vegetation, water, weather, wildlife, and any human presence.";
 
-            atmosphere =
-                "Natural atmospheric haze, clouds, mist, wind movement, airborne particles, realistic humidity, and environmental depth.";
+            people =
+                "Include people or wildlife only when relevant to the original concept and place them naturally within the environment.";
 
             composition =
                 "Wide cinematic landscape composition with strong leading lines, balanced foreground, dramatic horizon placement, layered depth, and clear visual hierarchy.";
@@ -535,17 +832,8 @@ and only relevant supporting elements.`;
             camera =
                 "24mm wide-angle cinematic landscape photography with deep focus, realistic perspective, balanced framing, and immersive scale.";
 
-            lighting =
-                "Natural directional sunlight or dramatic golden-hour lighting with realistic shadows, highlights, atmospheric rays, and environmental reflections.";
-
-            colors =
-                "Rich natural greens, earthy browns, atmospheric blues, soft highlights, and a cinematic color grade.";
-
             materials =
                 "Detailed rocks, soil, vegetation, water surfaces, tree bark, clouds, terrain textures, and realistic natural materials.";
-
-            people =
-                "Include people or wildlife only when relevant to the original concept and place them naturally within the environment.";
 
             negative =
                 "Avoid artificial landscapes, impossible terrain, repeated trees, unrealistic water, flat composition, excessive saturation, distorted animals, and unrelated objects.";
@@ -553,93 +841,72 @@ and only relevant supporting elements.`;
 
 
         // =====================================================
-        // ARCHITECTURE / CITY
+        // ARCHITECTURE
         // =====================================================
 
-        else if (
-            context.architecture ||
-            context.city
-        ) {
+        else if (context.architecture) {
 
             subject =
-                `A visually striking architectural environment based on "${idea}", with clearly defined geometry, scale, facade design, structural elements, entrances, windows, and surrounding urban context.`;
+                `A visually striking architectural subject based on "${idea}", with clearly defined geometry, structure, facade details, entrances, windows, materials, and realistic scale.`;
 
             environment =
-                "A believable architectural or urban environment with streets, surrounding buildings, pedestrians, vehicles, landscaping, infrastructure, and realistic spatial relationships.";
+                `A believable architectural environment in ${location}, with surrounding structures, streets, landscaping, pedestrians, infrastructure, and realistic spatial relationships.`;
 
             technology =
-                "Add transportation systems, digital displays, smart infrastructure, lighting systems, or advanced architectural technology only when relevant.";
+                "Use smart infrastructure, transportation systems, digital displays, advanced materials, or architectural technology only when relevant.";
 
             visualStory =
-                "Show architecture functioning within its environment through realistic pedestrian movement, transportation, businesses, public spaces, and environmental interaction.";
+                "Show the architecture functioning within its environment through realistic pedestrian movement, transportation, public spaces, businesses, and environmental interaction.";
 
-            atmosphere =
-                "Detailed environmental atmosphere including weather, haze, reflections, shadows, airborne particles, and realistic urban activity.";
+            people =
+                "Natural pedestrians, workers, vehicles, vegetation, and public-space interactions that make the architecture feel inhabited.";
 
             composition =
-                "Strong geometric composition with clear architectural hierarchy, controlled perspective, leading lines, balanced framing, and realistic scale.";
+                "Strong geometric composition with architectural hierarchy, leading lines, controlled perspective, balanced framing, and realistic scale.";
 
             camera =
-                "Cinematic architectural photography using a wide-angle lens, controlled vertical lines, dramatic framing, realistic perspective, and strong depth.";
-
-            lighting =
-                "Directional natural or artificial lighting interacting realistically with glass, metal, concrete, windows, streets, and surrounding structures.";
-
-            colors =
-                "Professional architectural color palette with balanced tones, controlled contrast, and colors supporting the selected visual style.";
+                "Cinematic architectural photography with wide-angle lens characteristics, controlled vertical lines, realistic perspective, and strong depth.";
 
             materials =
                 "Glass, steel, concrete, stone, wood, brushed metal, illuminated surfaces, realistic windows, structural joints, and detailed facade textures.";
 
-            people =
-                "Natural pedestrians, workers, vehicles, street activity, vegetation, and public-space interactions that make the environment feel inhabited.";
-
             negative =
-                "Avoid impossible architecture, distorted perspective, floating buildings, repetitive windows, empty environments, flat lighting, unrealistic scale, excessive clutter, and unrelated objects.";
+                "Avoid impossible architecture, distorted perspective, floating buildings, repetitive windows, empty environments, flat lighting, unrealistic scale, and excessive clutter.";
         }
 
 
         // =====================================================
-        // PRODUCT / CAR / TECH
+        // CAR / PRODUCT
         // =====================================================
 
-        else if (context.product) {
+        else if (context.car || context.product) {
 
             subject =
-                `A premium, clearly defined product or technological subject based on "${idea}", with precise proportions, sophisticated design language, realistic surface details, functional components, and polished presentation.`;
+                `A premium, clearly defined subject based directly on "${idea}", with precise proportions, sophisticated design language, realistic surface details, functional components, and distinctive visual identity.`;
 
             environment =
-                "A carefully designed studio or contextual environment that supports the product without distracting from it.";
+                "A carefully designed studio or contextual environment that supports the subject without distracting from it.";
 
             technology =
                 "Highlight relevant functional components, interfaces, mechanisms, materials, and technological features that naturally belong to the subject.";
 
             visualStory =
-                "Present the product in a believable environment with realistic interaction between the object, surface, lighting, and supporting elements.";
-
-            atmosphere =
-                "Clean controlled atmosphere with subtle depth, realistic reflections, carefully placed environmental elements, and premium commercial mood.";
-
-            composition =
-                "Strong product hierarchy, precise framing, clean negative space, realistic proportions, and controlled visual balance.";
-
-            camera =
-                "Professional product photography using 50mm or 85mm lens characteristics, precise framing, controlled perspective, and realistic depth of field.";
-
-            lighting =
-                "Professional studio lighting with large soft sources, controlled highlights, subtle rim lighting, realistic reflections, and carefully shaped shadows.";
-
-            colors =
-                "Premium commercial color grading with a cohesive palette that complements the product design.";
-
-            materials =
-                "Realistic metal, glass, plastic, leather, rubber, fabric, polished surfaces, micro-textures, seams, buttons, and material transitions.";
+                "Present the subject in a believable environment with realistic interaction between the object, surface, lighting, and supporting elements.";
 
             people =
                 "Include human interaction only when relevant to the original concept.";
 
+            composition =
+                "Strong subject hierarchy, precise framing, controlled negative space, realistic proportions, and balanced visual composition.";
+
+            camera =
+                "Professional product or automotive photography using 50mm to 85mm lens characteristics, controlled perspective, precise framing, and realistic depth of field.";
+
+            materials =
+                "Realistic metal, glass, plastic, leather, rubber, fabric, polished surfaces, micro-textures, seams, buttons, panels, and material transitions.";
+
             negative =
-                "Avoid incorrect proportions, floating products, unrealistic materials, distorted logos, excessive reflections, messy backgrounds, and unnecessary objects.";
+                "Avoid incorrect proportions, floating products, unrealistic materials, distorted branding, excessive reflections, messy backgrounds, and unnecessary objects.";
         }
 
 
@@ -650,19 +917,19 @@ and only relevant supporting elements.`;
         else if (context.space) {
 
             subject =
-                `A highly detailed futuristic space scene based on "${idea}", with believable engineering, clearly defined structures, advanced equipment, and a strong visual focal point.`;
+                `A highly detailed space scene based directly on "${idea}", with believable engineering, advanced equipment, clearly defined structures, and a strong visual focal point.`;
 
             environment =
-                "A vast cosmic environment containing planets, stars, nebulae, orbital structures, distant spacecraft, or futuristic stations appropriate to the concept.";
+                "A vast cosmic environment containing planets, stars, nebulae, orbital structures, spacecraft, or futuristic stations appropriate to the concept.";
 
             technology =
                 "Advanced spacecraft systems, robotic equipment, communication arrays, energy systems, navigation interfaces, and believable futuristic engineering.";
 
             visualStory =
-                "Create clear scale relationships between spacecraft, planets, structures, and surrounding cosmic elements.";
+                "Create clear scale relationships between spacecraft, planets, structures, astronauts, and surrounding cosmic elements.";
 
-            atmosphere =
-                "Deep cosmic darkness, glowing particles, subtle planetary haze, distant stars, and dramatic spatial depth.";
+            people =
+                "Astronauts or human subjects only when relevant, with realistic proportions, equipment, movement, and believable interaction.";
 
             composition =
                 "Epic cinematic composition with dramatic perspective, strong scale relationships, layered cosmic depth, and clear focal hierarchy.";
@@ -670,17 +937,8 @@ and only relevant supporting elements.`;
             camera =
                 "Epic wide-angle cinematic camera with realistic scale, deep focus, controlled framing, and immersive perspective.";
 
-            lighting =
-                "Strong directional cosmic lighting, intense highlights, deep shadows, glowing planetary light, and realistic illumination across surfaces.";
-
-            colors =
-                "Deep black, electric blue, violet, cyan, white highlights, and subtle planetary colors.";
-
             materials =
                 "Advanced metal alloys, reflective glass, carbon composites, illuminated panels, mechanical components, and realistic spacecraft surfaces.";
-
-            people =
-                "Astronauts or human subjects only when relevant, with realistic proportions and believable equipment.";
 
             negative =
                 "Avoid impossible spacecraft, random planets, unrealistic scale, distorted astronauts, excessive glowing effects, and scientifically incoherent structures.";
@@ -694,19 +952,19 @@ and only relevant supporting elements.`;
         else if (context.fantasy) {
 
             subject =
-                `A richly designed fantasy scene based on "${idea}", with distinctive characters, detailed clothing or armor, expressive features, and believable interaction with the magical environment.`;
+                `A richly designed fantasy scene based directly on "${idea}", with distinctive characters, detailed clothing or armor, expressive features, creatures, and believable interaction with the magical environment.`;
 
             environment =
                 "An expansive fantasy environment with ancient architecture, mystical landscapes, atmospheric depth, natural elements, and carefully designed environmental storytelling.";
 
             technology =
-                "Use magical objects, artifacts, glowing symbols, enchanted structures, or mystical mechanisms where appropriate instead of unrelated modern technology.";
+                "Use magical objects, artifacts, enchanted structures, glowing symbols, mystical mechanisms, or magical energy where appropriate instead of unrelated modern technology.";
 
             visualStory =
-                "Create natural interactions between characters, magical elements, architecture, terrain, creatures, and the surrounding environment.";
+                "Create natural interactions between characters, magical elements, architecture, terrain, creatures, and surrounding environment.";
 
-            atmosphere =
-                "Magical mist, floating particles, glowing energy, atmospheric haze, dramatic clouds, and an immersive mysterious mood.";
+            people =
+                "Believable fantasy characters with natural poses, realistic anatomy, expressive faces, detailed clothing, and contextual interactions.";
 
             composition =
                 "Epic cinematic composition with strong subject placement, dramatic perspective, layered environmental depth, and clear visual hierarchy.";
@@ -714,17 +972,8 @@ and only relevant supporting elements.`;
             camera =
                 "Wide cinematic fantasy composition with dramatic perspective, realistic scale, controlled depth, and immersive storytelling.";
 
-            lighting =
-                "Magical volumetric lighting, glowing highlights, directional moonlight or sunlight, atmospheric shadows, and realistic illumination.";
-
-            colors =
-                "Deep blues, violet, emerald, gold, warm amber, and restrained magical highlights.";
-
             materials =
                 "Stone, ancient wood, metal armor, fabric, leather, crystals, magical surfaces, vegetation, and detailed environmental textures.";
-
-            people =
-                "Believable characters with natural poses, realistic anatomy, expressive faces, detailed clothing, and contextual interactions.";
 
             negative =
                 "Avoid generic fantasy clichés, distorted anatomy, random magical objects, excessive glowing effects, flat environments, and unrelated elements.";
@@ -738,10 +987,10 @@ and only relevant supporting elements.`;
         else if (context.horror) {
 
             subject =
-                `A clearly defined horror scene based on "${idea}", with unsettling visual characteristics, realistic textures, and a strong psychological presence.`;
+                `A clearly defined horror scene based directly on "${idea}", with unsettling visual characteristics, realistic textures, and a strong psychological presence.`;
 
             environment =
-                "An abandoned or isolated environment with decaying architecture, damaged structures, overgrown vegetation, empty corridors, and signs of neglect.";
+                "An abandoned or isolated environment with decaying architecture, damaged structures, overgrown vegetation, empty corridors, and believable signs of neglect.";
 
             technology =
                 "Use broken lights, old monitors, abandoned equipment, flickering electronics, or environmental technology only when appropriate.";
@@ -749,26 +998,17 @@ and only relevant supporting elements.`;
             visualStory =
                 "Create subtle environmental clues that suggest a believable history without overcrowding the scene.";
 
-            atmosphere =
-                "Dense fog, dust particles, cold humid air, drifting mist, darkness, subtle movement, and an oppressive atmosphere.";
+            people =
+                "Human presence only when relevant, with realistic silhouettes, proportions, posture, and environmental interaction.";
 
             composition =
                 "Controlled cinematic framing with deliberate negative space, strong foreground elements, deep shadows, and clear visual hierarchy.";
 
             camera =
-                "Low-angle cinematic framing with a slightly wide lens, deep shadows, controlled perspective, and deliberate negative space.";
-
-            lighting =
-                "Minimal directional lighting, flickering practical lights, harsh shadows, subtle rim lighting, and dramatic darkness.";
-
-            colors =
-                "Desaturated blue-gray tones, black, muted green, dark red accents, and limited warm highlights.";
+                "Low-angle cinematic framing with slightly wide lens characteristics, deep shadows, controlled perspective, and deliberate negative space.";
 
             materials =
                 "Aged concrete, cracked walls, rusted metal, dirty glass, decaying wood, wet surfaces, dust, and damaged fabrics.";
-
-            people =
-                "Human presence only when relevant, with realistic silhouettes, proportions, posture, and environmental interaction.";
 
             negative =
                 "Avoid excessive gore, cartoonish horror, distorted anatomy, random objects, flat lighting, unrealistic environments, and cheap-looking effects.";
@@ -776,16 +1016,16 @@ and only relevant supporting elements.`;
 
 
         // =====================================================
-        // DEFAULT INTELLIGENCE
+        // DEFAULT
         // =====================================================
 
         else {
 
             subject =
-                `A clearly defined main subject based on "${idea}", with relevant appearance, characteristics, objects, and visual elements that naturally support the original concept.`;
+                `A clearly defined main subject based directly on "${idea}", with relevant appearance, characteristics, objects, and visual elements that naturally support the original concept.`;
 
             environment =
-                "A believable environment built specifically around the subject, including appropriate location, architecture, weather, time of day, background elements, and environmental features.";
+                `A believable environment in ${location || "an appropriate setting"}, including relevant architecture, weather, time of day, background elements, and environmental features.`;
 
             technology =
                 "Introduce technology, objects, transportation, interfaces, or infrastructure only when they naturally fit the original concept.";
@@ -793,26 +1033,17 @@ and only relevant supporting elements.`;
             visualStory =
                 "Create natural relationships between the subject, environment, objects, people, and surrounding elements so the scene feels purposeful and believable.";
 
-            atmosphere =
-                "A carefully designed atmosphere with appropriate weather, air quality, fog, particles, reflections, environmental depth, and mood.";
+            people =
+                "Include people only when relevant, with realistic anatomy, natural body language, believable clothing, and appropriate environmental interaction.";
 
             composition =
                 "Strong foreground, midground, and background separation with clear subject hierarchy, leading lines, balanced framing, realistic scale, and intentional placement.";
 
             camera =
-                "Professional cinematic camera angle and framing with an appropriate lens, realistic perspective, controlled depth of field, and strong visual balance.";
-
-            lighting =
-                "Detailed directional lighting with realistic shadows, highlights, reflections, ambient illumination, and mood appropriate to the concept.";
-
-            colors =
-                `A professional color palette supporting the ${style} visual style and overall atmosphere.`;
+                "Professional cinematic camera angle and framing with appropriate lens characteristics, realistic perspective, controlled depth of field, and strong visual balance.";
 
             materials =
                 "Realistic surfaces, materials, textures, environmental details, and subtle imperfections appropriate to the scene.";
-
-            people =
-                "Include people only when relevant, with realistic anatomy, natural body language, believable clothing, and appropriate interaction with the environment.";
 
             negative =
                 "Avoid generic visuals, unnecessary objects, inconsistent perspective, distorted anatomy, unrealistic materials, flat lighting, excessive clutter, low-detail environments, blurry textures, and unrelated elements.";
@@ -820,17 +1051,85 @@ and only relevant supporting elements.`;
 
 
         // =====================================================
-        // FINAL IMAGE PROMPT
+        // COMBINE TIME + WEATHER
+        // =====================================================
+
+        let finalAtmosphere =
+            time.atmosphere;
+
+        let finalLighting =
+            time.lighting;
+
+        let finalColors =
+            time.colors;
+
+
+        if (weather.atmosphere) {
+
+            finalAtmosphere +=
+                " " + weather.atmosphere;
+        }
+
+
+        if (weather.lighting) {
+
+            finalLighting +=
+                " " + weather.lighting;
+        }
+
+
+        if (weather.colors) {
+
+            finalColors =
+                weather.colors;
+        }
+
+
+        // =====================================================
+        // INDIAN CONTEXT
+        // =====================================================
+
+        let indianContext = "";
+
+        if (context.india) {
+
+            indianContext = `
+INDIAN CONTEXT:
+Use believable Indian environmental details appropriate to the requested setting, including architecture, urban planning, public transportation, greenery, businesses, multilingual signage, people, and everyday activity.
+
+Keep the cultural representation natural and contextually appropriate.
+Avoid stereotypical decoration or unnecessary cultural objects.`;
+        }
+
+
+        // =====================================================
+        // ERA CONTEXT
+        // =====================================================
+
+        let eraContext = "";
+
+        if (context.year) {
+
+            eraContext = `
+ERA:
+The visual world should plausibly belong to ${context.year}. Technology, architecture, transportation, clothing, infrastructure, and everyday life should be consistent with this period.`;
+        }
+
+
+        // =====================================================
+        // FINAL PROMPT
         // =====================================================
 
         return `Create a ${style}, highly detailed AI image based on this original idea:
 
 "${idea}"
 
-SMART VISUAL INTELLIGENCE:
+SMART VISUAL INTELLIGENCE 3.0:
 
 CONCEPT:
-Interpret the original idea intelligently while preserving its exact meaning, subject, location, time period, atmosphere, and intent.
+Understand the original idea as a combination of subject, location, era, time, weather, genre, environment, and visual intent.
+
+Preserve the original meaning while intelligently expanding only the details that naturally support it.
 
 SUBJECT:
 ${subject}
@@ -847,8 +1146,12 @@ ${visualStory}
 PEOPLE & EVERYDAY LIFE:
 ${people}
 
+${indianContext}
+
+${eraContext}
+
 ATMOSPHERE:
-${atmosphere}
+${finalAtmosphere}
 
 COMPOSITION:
 ${composition}
@@ -857,10 +1160,10 @@ CAMERA:
 ${camera}
 
 LIGHTING:
-${lighting}
+${finalLighting}
 
 COLOR PALETTE:
-${colors}
+${finalColors}
 
 MATERIALS & TEXTURES:
 ${materials}
@@ -869,13 +1172,24 @@ STYLE DIRECTION:
 ${getStyleDirection(style)}
 
 COHERENCE:
-Architecture, people, objects, technology, lighting, perspective, materials, environment, and atmosphere must logically belong to the same believable world.
+All architecture, people, objects, technology, weather, lighting, materials, perspective, scale, and atmosphere must belong to the same believable world.
+
+DYNAMIC CONTEXT:
+Respect every explicitly requested contextual element.
+
+Do not replace the requested location.
+Do not replace the requested time of day.
+Do not replace the requested weather.
+Do not replace the requested era.
+Do not introduce unrelated genres or environments.
 
 CORE IDEA PROTECTION:
-Preserve the original idea exactly at its core. Every added detail must naturally support the original concept rather than changing its meaning.
+Preserve the original idea exactly at its core.
+
+Every added detail must support the original concept.
 
 QUALITY:
-Ultra-detailed, coherent, professionally composed, realistic proportions, physically believable lighting, detailed textures, strong atmospheric depth, sophisticated composition, realistic scale, polished visual storytelling, and optimized for modern AI image generation.
+Ultra-detailed, coherent, realistic proportions, physically believable lighting, detailed textures, strong atmospheric depth, sophisticated composition, realistic scale, professional production design, immersive storytelling, and optimized for modern AI image generation.
 
 NEGATIVE:
 ${negative}
@@ -886,7 +1200,7 @@ Return one complete, polished, ready-to-use AI image generation prompt.`;
 
 
     // =========================================================
-    // VIDEO PROMPT
+    // VIDEO
     // =========================================================
 
     function buildVideoPrompt(idea, style) {
@@ -898,34 +1212,31 @@ Return one complete, polished, ready-to-use AI image generation prompt.`;
 SMART VIDEO INTELLIGENCE:
 
 SCENE:
-Define the environment, location, time of day, weather, atmosphere, architecture, and visual context.
+Define the location, environment, time, weather, architecture, atmosphere, and visual context.
 
 SUBJECT & ACTION:
-Clearly define the main subject and exactly what it is doing. Movement must be natural, purposeful, and visually understandable.
-
-CAMERA:
-Specify camera angle, framing, lens characteristics, camera movement, tracking, pans, tilts, zooms, and transitions.
+Clearly define the main subject and what it is doing.
 
 MOTION:
-Describe realistic movement of people, objects, vehicles, clothing, hair, particles, weather, and environmental elements.
+Describe realistic movement of people, vehicles, objects, clothing, hair, weather, particles, and environmental elements.
+
+CAMERA:
+Specify camera angle, framing, lens characteristics, tracking, pans, tilts, zooms, and cinematic movement.
 
 VISUAL STORY:
-Create a clear beginning, visual development, and satisfying cinematic progression.
+Create a clear visual progression with purposeful cinematic development.
 
 LIGHTING:
 Use realistic directional lighting, shadows, highlights, reflections, practical lights, and atmospheric illumination.
 
-ATMOSPHERE:
-Add appropriate fog, particles, smoke, dust, rain, reflections, weather, and environmental movement.
-
 PACING:
-Maintain smooth cinematic pacing with intentional visual rhythm.
+Maintain smooth cinematic pacing and intentional visual rhythm.
 
 STYLE:
 ${getStyleDirection(style)}
 
 QUALITY:
-Smooth motion, consistent subjects, realistic physics, coherent environments, cinematic lighting, high detail, professional production quality, and temporal consistency.
+Smooth motion, consistent subjects, realistic physics, coherent environments, cinematic lighting, high detail, temporal consistency, and professional production quality.
 
 NEGATIVE:
 Avoid flickering, distorted faces, inconsistent subjects, unnatural motion, broken physics, random camera movement, visual artifacts, and unnecessary objects.
@@ -936,7 +1247,7 @@ Return one complete, ready-to-use AI video generation prompt.`;
 
 
     // =========================================================
-    // TEXT PROMPT
+    // TEXT
     // =========================================================
 
     function buildTextPrompt(idea, style) {
@@ -954,16 +1265,16 @@ AUDIENCE:
 Adapt vocabulary, complexity, tone, and explanation to the appropriate audience.
 
 CONTEXT:
-Use relevant background information required to understand the request.
+Use all relevant background information required to understand the request.
 
 STRUCTURE:
-Organize the response into clear logical sections with readable formatting.
+Organize the response into clear logical sections.
 
 TONE:
-Use a ${style} communication style that feels natural, confident, clear, and engaging.
+Use a ${style} communication style that feels natural, clear, confident, and engaging.
 
 CONTENT:
-Expand the original idea with relevant information, examples, explanations, context, and practical details without unnecessary filler.
+Expand the original idea with relevant information, examples, explanations, and practical details without unnecessary filler.
 
 CLARITY:
 Use precise language, logical flow, concise explanations, and useful formatting.
@@ -977,7 +1288,7 @@ Return one complete, ready-to-use AI writing prompt.`;
 
 
     // =========================================================
-    // CODE PROMPT
+    // CODE
     // =========================================================
 
     function buildCodePrompt(idea) {
@@ -1009,9 +1320,6 @@ Optimize the solution where appropriate without sacrificing maintainability.
 TESTING:
 Include useful test cases, validation steps, and debugging guidance.
 
-EXPLANATION:
-Explain important implementation decisions clearly when useful.
-
 QUALITY:
 The solution should be reliable, maintainable, efficient, scalable, and production-ready where appropriate.
 
@@ -1021,7 +1329,7 @@ Return one complete, ready-to-use AI coding prompt.`;
 
 
     // =========================================================
-    // STUDY PROMPT
+    // STUDY
     // =========================================================
 
     function buildStudyPrompt(idea) {
@@ -1092,20 +1400,14 @@ Return one complete, ready-to-use AI study prompt.`;
 
 
     // =========================================================
-    // QUALITY SCORE 2.0
+    // QUALITY SCORE 3.0
     // =========================================================
 
     function calculateQualityScore(prompt, idea, aiType) {
 
-        let score = 35;
+        let score = 45;
 
-        const length = prompt.length;
-
-        if (length > 500) score += 5;
-        if (length > 900) score += 5;
-        if (length > 1500) score += 5;
-
-        const importantSections = [
+        const sections = [
             "CONCEPT:",
             "SUBJECT:",
             "SETTING & ENVIRONMENT:",
@@ -1118,69 +1420,149 @@ Return one complete, ready-to-use AI study prompt.`;
             "OUTPUT:"
         ];
 
-        importantSections.forEach(function (section) {
+
+        let sectionCount = 0;
+
+        sections.forEach(function (section) {
 
             if (prompt.includes(section)) {
+                sectionCount++;
+            }
+        });
+
+
+        score += sectionCount * 2;
+
+
+        // Specificity
+        if (idea.length >= 20) {
+            score += 4;
+        }
+
+        if (idea.length >= 50) {
+            score += 4;
+        }
+
+
+        // Context awareness
+        const context =
+            detectContext(idea);
+
+
+        if (context.location) {
+            score += 4;
+        }
+
+        if (context.year) {
+            score += 4;
+        }
+
+        if (
+            context.night ||
+            context.sunrise ||
+            context.sunset ||
+            context.morning
+        ) {
+            score += 3;
+        }
+
+        if (
+            context.rain ||
+            context.snow ||
+            context.storm ||
+            context.fog ||
+            context.summer
+        ) {
+            score += 3;
+        }
+
+
+        // AI type specific
+        if (aiType === "image") {
+
+            if (prompt.includes("COLOR PALETTE:")) {
                 score += 2;
             }
 
-        });
+            if (prompt.includes("MATERIALS & TEXTURES:")) {
+                score += 2;
+            }
 
-        if (idea.length >= 15) score += 3;
-        if (idea.length >= 30) score += 3;
-
-        if (aiType === "image") {
-
-            if (prompt.includes("COLOR PALETTE:")) score += 2;
-            if (prompt.includes("MATERIALS & TEXTURES:")) score += 2;
-            if (prompt.includes("PEOPLE & EVERYDAY LIFE:")) score += 2;
-
+            if (prompt.includes("PEOPLE & EVERYDAY LIFE:")) {
+                score += 2;
+            }
         }
+
 
         if (aiType === "video") {
 
-            if (prompt.includes("MOTION:")) score += 3;
-            if (prompt.includes("PACING:")) score += 2;
+            if (prompt.includes("MOTION:")) {
+                score += 3;
+            }
 
+            if (prompt.includes("PACING:")) {
+                score += 2;
+            }
         }
+
 
         if (aiType === "code") {
 
-            if (prompt.includes("ERROR HANDLING:")) score += 3;
-            if (prompt.includes("TESTING:")) score += 3;
-            if (prompt.includes("SECURITY:")) score += 2;
+            if (prompt.includes("ERROR HANDLING:")) {
+                score += 3;
+            }
 
+            if (prompt.includes("TESTING:")) {
+                score += 3;
+            }
+
+            if (prompt.includes("SECURITY:")) {
+                score += 2;
+            }
         }
+
 
         if (aiType === "study") {
 
-            if (prompt.includes("EXAM FOCUS:")) score += 3;
-            if (prompt.includes("PRACTICE:")) score += 3;
-            if (prompt.includes("REVISION:")) score += 2;
+            if (prompt.includes("EXAM FOCUS:")) {
+                score += 3;
+            }
 
+            if (prompt.includes("PRACTICE:")) {
+                score += 3;
+            }
+
+            if (prompt.includes("REVISION:")) {
+                score += 2;
+            }
         }
 
-        return Math.min(Math.round(score), 100);
+
+        return Math.min(
+            Math.round(score),
+            100
+        );
     }
 
 
     // =========================================================
-    // QUALITY BREAKDOWN
+    // QUALITY BOX
     // =========================================================
 
     function createQualityBox(score) {
 
         const clarity =
-            Math.min(100, score - 2);
+            Math.max(0, Math.min(100, score - 2));
 
         const detail =
-            Math.min(100, score + 1);
+            Math.max(0, Math.min(100, score + 1));
 
         const structure =
-            Math.min(100, score);
+            Math.max(0, Math.min(100, score));
 
         const aiReady =
-            Math.min(100, score + 2);
+            Math.max(0, Math.min(100, score + 2));
+
 
         return `
             <div class="quality-box">
@@ -1207,9 +1589,7 @@ Return one complete, ready-to-use AI study prompt.`;
                         </div>
                     </div>
 
-
                     <div class="quality-item">
-
                         <div>
                             <span>🧠 Detail</span>
                             <b>${detail}%</b>
@@ -1218,12 +1598,9 @@ Return one complete, ready-to-use AI study prompt.`;
                         <div class="quality-bar">
                             <span style="width:${detail}%"></span>
                         </div>
-
                     </div>
 
-
                     <div class="quality-item">
-
                         <div>
                             <span>🏗️ Structure</span>
                             <b>${structure}%</b>
@@ -1232,12 +1609,9 @@ Return one complete, ready-to-use AI study prompt.`;
                         <div class="quality-bar">
                             <span style="width:${structure}%"></span>
                         </div>
-
                     </div>
 
-
                     <div class="quality-item">
-
                         <div>
                             <span>🤖 AI Readiness</span>
                             <b>${aiReady}%</b>
@@ -1246,7 +1620,6 @@ Return one complete, ready-to-use AI study prompt.`;
                         <div class="quality-bar">
                             <span style="width:${aiReady}%"></span>
                         </div>
-
                     </div>
 
                 </div>
@@ -1261,7 +1634,7 @@ Return one complete, ready-to-use AI study prompt.`;
 
 
     // =========================================================
-    // IMPROVE PROMPT
+    // IMPROVE
     // =========================================================
 
     function improvePrompt(idea, aiType, style) {
@@ -1277,20 +1650,20 @@ Return one complete, ready-to-use AI study prompt.`;
 
 FINAL OPTIMIZATION PASS:
 
-- Remove unnecessary repetition.
-- Keep every detail relevant to the original idea.
-- Maintain logical consistency between all sections.
-- Prioritize concrete visual or functional information.
-- Preserve the original intent.
-- Avoid generic filler.
-- Ensure the final instructions are clear to modern AI systems.
-- Return a polished production-ready prompt.`;
-
+Remove unnecessary repetition.
+Keep every detail relevant to the original idea.
+Maintain logical consistency between all sections.
+Prioritize concrete information.
+Preserve the original intent.
+Avoid generic filler.
+Ensure contextual details remain consistent.
+Make the prompt clear to modern AI systems.
+Return a polished production-ready prompt.`;
     }
 
 
     // =========================================================
-    // SAVE HISTORY
+    // HISTORY SAVE
     // =========================================================
 
     function savePromptToHistory(
@@ -1302,8 +1675,11 @@ FINAL OPTIMIZATION PASS:
 
         let history =
             JSON.parse(
-                localStorage.getItem("aivivoHistory")
+                localStorage.getItem(
+                    "aivivoHistory"
+                )
             ) || [];
+
 
         const newPrompt = {
 
@@ -1311,38 +1687,36 @@ FINAL OPTIMIZATION PASS:
 
             prompt: prompt,
 
-            originalIdea:
-                originalIdea,
+            originalIdea: originalIdea,
 
-            aiType:
-                aiType,
+            aiType: aiType,
 
-            style:
-                style,
+            style: style,
 
-            date:
-                new Date().toLocaleString(),
+            date: new Date().toLocaleString(),
 
-            favorite:
-                false
+            favorite: false
         };
+
 
         history.unshift(newPrompt);
 
         history =
             history.slice(0, 20);
 
+
         localStorage.setItem(
             "aivivoHistory",
             JSON.stringify(history)
         );
+
 
         displayPromptHistory();
     }
 
 
     // =========================================================
-    // GENERATE BUTTON
+    // GENERATE
     // =========================================================
 
     if (generateBtn) {
@@ -1360,15 +1734,18 @@ FINAL OPTIMIZATION PASS:
                 const styleElement =
                     document.getElementById("style");
 
+
                 const idea =
                     ideaElement
                         ? ideaElement.value.trim()
                         : "";
 
+
                 const aiType =
                     aiTypeElement
                         ? aiTypeElement.value
                         : "image";
+
 
                 const style =
                     styleElement
@@ -1431,6 +1808,7 @@ FINAL OPTIMIZATION PASS:
                             "qualityBox"
                         );
 
+
                     if (oldQuality) {
                         oldQuality.remove();
                     }
@@ -1449,11 +1827,15 @@ FINAL OPTIMIZATION PASS:
                             "div"
                         );
 
+
                     qualityContainer.id =
                         "qualityBox";
 
+
                     qualityContainer.innerHTML =
-                        createQualityBox(score);
+                        createQualityBox(
+                            score
+                        );
 
 
                     resultBox.appendChild(
@@ -1475,7 +1857,6 @@ FINAL OPTIMIZATION PASS:
                         block: "start"
                     });
                 }
-
             }
         );
     }
@@ -1498,6 +1879,7 @@ FINAL OPTIMIZATION PASS:
                 "improveBtn"
             );
 
+
         if (!improveBtn) return;
 
 
@@ -1513,8 +1895,11 @@ FINAL OPTIMIZATION PASS:
                     );
 
 
-                promptResult.textContent =
-                    improved;
+                if (promptResult) {
+
+                    promptResult.textContent =
+                        improved;
+                }
 
 
                 const newScore =
@@ -1548,10 +1933,12 @@ FINAL OPTIMIZATION PASS:
                         "improveBtn"
                     );
 
+
                 if (button) {
 
                     button.textContent =
                         "🚀 Prompt Improved!";
+
 
                     setTimeout(
                         function () {
@@ -1560,6 +1947,7 @@ FINAL OPTIMIZATION PASS:
                                 document.getElementById(
                                     "improveBtn"
                                 );
+
 
                             if (reset) {
 
@@ -1571,7 +1959,6 @@ FINAL OPTIMIZATION PASS:
                         1800
                     );
                 }
-
             }
         );
     }
@@ -1592,6 +1979,7 @@ FINAL OPTIMIZATION PASS:
                         "promptResult"
                     );
 
+
                 if (!promptResult) return;
 
 
@@ -1600,6 +1988,7 @@ FINAL OPTIMIZATION PASS:
                     await navigator.clipboard.writeText(
                         promptResult.textContent
                     );
+
 
                     copyBtn.textContent =
                         "✅ Copied!";
@@ -1621,9 +2010,7 @@ FINAL OPTIMIZATION PASS:
                     alert(
                         "Unable to copy the prompt. Please copy it manually."
                     );
-
                 }
-
             }
         );
     }
@@ -1636,14 +2023,11 @@ FINAL OPTIMIZATION PASS:
     displayPromptHistory();
 
 
-    // =========================================================
-    // HISTORY SEARCH
-    // =========================================================
-
     const searchInput =
         document.getElementById(
             "historySearch"
         );
+
 
     const filterInput =
         document.getElementById(
@@ -1697,7 +2081,6 @@ FINAL OPTIMIZATION PASS:
 
                     displayPromptHistory();
                 }
-
             }
         );
     }
@@ -1716,6 +2099,7 @@ function displayPromptHistory() {
             "historyList"
         );
 
+
     if (!historyList) return;
 
 
@@ -1731,6 +2115,7 @@ function displayPromptHistory() {
         document.getElementById(
             "historySearch"
         );
+
 
     const filterInput =
         document.getElementById(
@@ -1928,16 +2313,13 @@ function getHistoryIcon(type) {
     const icons = {
 
         image: "🖼️",
-
         video: "🎬",
-
         text: "✍️",
-
         code: "💻",
-
         study: "📚"
 
     };
+
 
     return icons[type] || "✨";
 }
@@ -1951,30 +2333,15 @@ function escapeHistoryHTML(text) {
 
     return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 }
 
 
@@ -2044,10 +2411,12 @@ function reuseHistoryPrompt(id) {
             "idea"
         );
 
+
     const aiTypeInput =
         document.getElementById(
             "aiType"
         );
+
 
     const styleInput =
         document.getElementById(
@@ -2061,6 +2430,7 @@ function reuseHistoryPrompt(id) {
             item.originalIdea ||
             item.prompt;
 
+
         ideaInput.dispatchEvent(
             new Event("input")
         );
@@ -2070,14 +2440,16 @@ function reuseHistoryPrompt(id) {
     if (aiTypeInput) {
 
         aiTypeInput.value =
-            item.aiType || "image";
+            item.aiType ||
+            "image";
     }
 
 
     if (styleInput) {
 
         styleInput.value =
-            item.style || "cinematic";
+            item.style ||
+            "cinematic";
     }
 
 
