@@ -280,7 +280,155 @@ Return one polished, complete, professional, ready-to-use AI prompt.`;
             // IMAGE MODE
             // =====================================================
 
-            if (aiType === "image") {
+            
+             if (aiType === "image") {
+
+    // ================================
+    // SMART CONTEXT INTELLIGENCE 2.0
+    // ================================
+
+    const isFuturistic =
+        hasAny(ideaLower, [
+            "futuristic",
+            "future",
+            "2050",
+            "2070",
+            "2100",
+            "sci-fi",
+            "advanced"
+        ]);
+
+    const isCity =
+        hasAny(ideaLower, [
+            "city",
+            "megacity",
+            "urban",
+            "downtown",
+            "skyscraper",
+            "metropolis"
+        ]);
+
+    const isIndia =
+        hasAny(ideaLower, [
+            "india",
+            "indian",
+            "delhi",
+            "mumbai",
+            "bangalore",
+            "bengaluru",
+            "kolkata",
+            "hyderabad",
+            "chennai",
+            "patna"
+        ]);
+
+    const isNight =
+        hasAny(ideaLower, [
+            "night",
+            "nighttime",
+            "at night",
+            "midnight",
+            "evening"
+        ]);
+
+    // FUTURISTIC INDIAN CITY
+    if (isFuturistic && isCity && isIndia) {
+
+        subject =
+            "A vast futuristic Indian megacity in the year 2050, combining towering glass-and-metal skyscrapers with sophisticated Indian architectural influences, dense urban districts, elevated transportation networks, autonomous vehicles, intelligent infrastructure, and a vibrant population.";
+
+        environment =
+            "A highly developed Indian metropolitan district at night, featuring futuristic streets, elevated transit corridors, pedestrian zones, landscaped public spaces, interconnected skyscrapers, advanced public infrastructure, glowing storefronts, and distant city towers disappearing into atmospheric haze.";
+
+        technology =
+            "Autonomous electric vehicles, flying taxis, high-speed elevated transit, delivery drones, holographic advertisements, AI-powered traffic systems, smart roads, robotic public services, transparent digital interfaces, renewable-energy infrastructure, and advanced Indian urban technology.";
+
+        atmosphere =
+            "A cinematic nighttime atmosphere with humid air, light rain, atmospheric haze, drifting steam, reflective streets, glowing windows, illuminated transportation systems, subtle fog, and a vibrant sense of everyday urban life.";
+
+        camera =
+            "Wide cinematic establishing shot from street level using a 28mm lens, strong perspective, dramatic vertical architecture, clear foreground-to-background depth, realistic scale, controlled framing, and immersive environmental storytelling.";
+
+        lighting =
+            "A sophisticated combination of cyan and violet futuristic lighting, warm amber building interiors, subtle Indian-inspired decorative lighting, illuminated transit systems, realistic street lights, volumetric beams, and reflections across wet surfaces.";
+
+        colors =
+            "Deep blue, electric cyan, violet, metallic silver, charcoal black, warm amber, subtle saffron, white, and green accents inspired by India's visual identity.";
+
+        materials =
+            "Reflective architectural glass, brushed steel, polished concrete, dark stone, illuminated panels, smart road surfaces, transparent displays, realistic vehicle materials, wet asphalt, and highly detailed building facades.";
+
+        extraDetails =
+            "Include diverse Indian pedestrians wearing modern futuristic clothing, subtle Indian cultural influences in architecture and public spaces, multilingual digital signage, green rooftop gardens, smart public infrastructure, autonomous vehicles, elevated metro systems, distant drones, street vendors adapted to futuristic technology, and realistic signs of everyday life.";
+
+        styleDirection =
+            "Premium cinematic futuristic Indian visual language, realistic production design, sophisticated architecture, atmospheric depth, dramatic lighting, photorealistic materials, immersive scale, and believable technological advancement.";
+
+        expandedIdea =
+`Create a cinematic, highly detailed AI image based on this original idea:
+
+"${idea}"
+
+SMART CONTEXT EXPANSION:
+
+CONCEPT:
+Interpret the idea as a futuristic Indian megacity in 2050 while preserving the original meaning.
+
+SUBJECT:
+${subject}
+
+SETTING & ENVIRONMENT:
+${environment}
+
+TECHNOLOGY & OBJECTS:
+${technology}
+
+VISUAL STORY:
+Show natural interactions between people, transportation, architecture, technology, businesses, public spaces, and the surrounding environment. Make the city feel like a functioning real-world Indian metropolis rather than a generic futuristic city.
+
+ATMOSPHERE:
+${atmosphere}
+
+COMPOSITION:
+Use strong foreground, midground, and background separation. Establish a clear visual hierarchy with the main city architecture as the focal point. Use leading lines, layered depth, realistic scale, and balanced framing.
+
+CAMERA:
+${camera}
+
+LIGHTING:
+${lighting}
+
+COLOR PALETTE:
+${colors}
+
+MATERIALS & TEXTURES:
+${materials}
+
+INDIAN CONTEXT:
+Include subtle, believable Indian architectural influences, cultural details, multilingual signage, modern Indian urban design, greenery, public spaces, and technology adapted to the Indian environment. Avoid turning the scene into a stereotype.
+
+ADDITIONAL VISUAL DETAILS:
+${extraDetails}
+
+STYLE DIRECTION:
+${styleDirection}
+
+CORE IDEA PROTECTION:
+Preserve the original idea exactly at its core. Every added detail must naturally support the concept.
+
+QUALITY:
+Ultra-detailed, photorealistic, cinematic, coherent, realistic proportions, physically believable lighting, detailed textures, atmospheric depth, sophisticated color grading, realistic urban scale, and optimized for modern AI image generation.
+
+NEGATIVE:
+Avoid generic futuristic cities, random architecture, unnecessary objects, cultural stereotypes, inconsistent perspective, distorted people, unrealistic vehicles, flat lighting, excessive clutter, low-detail buildings, blurry textures, and elements unrelated to the original concept.
+
+OUTPUT:
+Return one complete, polished, ready-to-use AI image generation prompt.`;
+
+    }
+
+    // EXISTING IMAGE INTELLIGENCE
+    else {
 
                 let subject = "";
                 let environment = "";
