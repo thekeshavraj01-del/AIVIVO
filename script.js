@@ -3,20 +3,57 @@
     const themeToggle = document.getElementById("themeToggle");
     const generateBtn = document.getElementById("generateBtn");
     const copyBtn = document.getElementById("copyBtn");
-
+    const ideaInput = document.getElementById("idea");
+    const ideaCounter = document.getElementById("ideaCounter");
     // =========================
     // DARK MODE
     // =========================
 
     if (themeToggle) {
-        themeToggle.addEventListener("click", function () {
-            document.body.classList.toggle("dark");
 
-            themeToggle.textContent =
-                document.body.classList.contains("dark") ? "☀️" : "🌙";
-        });
+    const savedTheme =
+        localStorage.getItem("aivivoTheme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeToggle.textContent = "☀️";
+    } else {
+        themeToggle.textContent = "🌙";
     }
 
+    themeToggle.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark");
+
+        const isDark =
+            document.body.classList.contains("dark");
+
+        themeToggle.textContent =
+            isDark ? "☀️" : "🌙";
+
+        localStorage.setItem(
+            "aivivoTheme",
+            isDark ? "dark" : "light"
+        );
+    });
+}
+  // =========================
+// IDEA CHARACTER COUNTER
+// =========================
+
+if (ideaInput && ideaCounter) {
+
+    function updateIdeaCounter() {
+        const count = ideaInput.value.length;
+
+        ideaCounter.textContent =
+            `${count.toLocaleString()} characters`;
+    }
+
+    ideaInput.addEventListener("input", updateIdeaCounter);
+
+    updateIdeaCounter();
+}
     // =========================
     // HELPER
     // =========================
@@ -166,47 +203,53 @@
     // =========================
     // IMPROVE PROMPT
     // =========================
+function improvePrompt(originalPrompt, idea, aiType, style) {
 
-    function improvePrompt(originalPrompt, idea, aiType, style) {
+    const improved = `Create a ${style}, highly optimized AI prompt based on this original idea:
 
-        let improved = originalPrompt;
+"${idea}"
 
-        const improvementBlock = `
+PROMPT OPTIMIZATION:
 
-SMART PROMPT OPTIMIZATION:
-
-INTENT:
-Preserve the exact meaning and core intention of "${idea}".
-
-SPECIFICITY:
-Make every important element specific, intentional, and visually or logically meaningful. Replace vague instructions with concrete descriptions whenever possible.
-
-COHERENCE:
-Ensure that all subjects, environments, actions, objects, style choices, lighting, structure, and supporting details work together consistently.
+CORE OBJECTIVE:
+Preserve the exact meaning and intention of the original idea while making the instructions clearer, more specific, and easier for an AI model to understand.
 
 CONTEXT:
-Add useful contextual information that helps the AI understand the situation, purpose, audience, environment, or visual world.
+Provide enough relevant context for the AI to understand the subject, purpose, environment, audience, or scenario.
+
+SPECIFICITY:
+Replace vague descriptions with concrete and meaningful details. Every added detail must directly support the original idea.
+
+STRUCTURE:
+Organize the prompt into clear logical sections so the AI can easily identify the objective, requirements, constraints, style, quality expectations, and final output.
+
+COHERENCE:
+Ensure that all elements work together naturally. Avoid contradictions, unnecessary details, unrelated concepts, and conflicting instructions.
+
+STYLE:
+Maintain a consistent ${style} style throughout the prompt.
 
 PRECISION:
-Use clear, direct instructions. Avoid ambiguity, unnecessary repetition, generic language, and conflicting requirements.
+Use direct, unambiguous language. Avoid filler, repetition, generic instructions, and unclear requirements.
 
 AI OPTIMIZATION:
-Organize the instructions so an AI model can easily identify the main subject, desired result, constraints, quality requirements, and output format.
-
-STYLE CONSISTENCY:
-Maintain the requested ${style} style throughout the entire result.
+Make the prompt easy for modern AI systems to interpret by clearly separating the main objective, supporting details, constraints, quality requirements, and expected output.
 
 ORIGINAL IDEA PROTECTION:
-Do not replace, distort, or change the original idea. Improvements must strengthen the original concept rather than introduce unrelated concepts.
+Do not change the core concept, purpose, or meaning of the original idea.
 
-FINAL OPTIMIZATION:
-Prioritize clarity, specificity, coherence, useful detail, strong hierarchy, realistic relationships between elements, and reliable AI interpretation.
-`;
+QUALITY:
+Maximize clarity, specificity, relevance, structure, consistency, useful detail, and practical AI usability.
 
-        improved += improvementBlock;
+FINAL INSTRUCTION:
+Generate the best possible response for the original idea while following every requirement above.
 
-        return improved;
-    }
+OUTPUT:
+Return one polished, complete, professional, ready-to-use AI prompt.`;
+
+    return improved;
+} 
+ 
 
     // =========================
     // GENERATE PROMPT
